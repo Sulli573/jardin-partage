@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des parcelles{% endblock %}
+
+{% block body %}
+<div class="container">
+
+    <!-- Navigation principale -->
+    {% include "partials/nav.html.twig" %}
+
+    <!-- Liste des parcelles -->
+    <div class="section">
+        <h2>Liste des parcelles</h2>
+
+        <div class="grid">
+            {% for parcelle in parcelles %}
+                <div class="card">
+                    <!-- En-tête de la carte avec les actions -->
+                    <h3>
+                        <p>#{{ parcelle.number }}</p>
+                        <div class="action-buttons">
+                            <a href="{{ path('app_parcelle_edit', { id: parcelle.id }) }}" class="edit-btn">Modifier</a>
+
+                            {# La fonction path de twig, convertie la clef de la route en url, alors que un include, fais un "copier/coller" du code html, du template donnée #}
+                            {% include "parcelle/_delete_form.html.twig" %}
+                        </div>
+                    </h3>
+                    <!-- Informations de la parcelle -->
+                    {# Si il y a un owner affiche son firstanme et lastname sinon affichera le else #}
+                    {% if parcelle.owner %}
+                        <p>Propriétaire: {{ parcelle.owner.firstname }} {{ parcelle.owner.lastname }}</p>
+                    {% else %}
+                        <p>Propriétaire: Aucun propriétaire défini</p>
+                    {% endif %}
+                    <p>Superficie: {{ parcelle.size }} m²</p>
+
+                    <!-- Liste des plantes de la parcelle -->
+                    {% if parcelle.plantes %}
+                        <h4>Plantes:</h4>
+                        <ul>
+                            {% for plante in parcelle.plantes %}
+                                <li>
+                                    <!-- Informations de la plante -->
+                                    {# // revient au même que faire plante.getNom #}
+                                    {{ plante.nom }}
+                                    ({{ plante.periodeCroissance }} jours, Planté le: {{ plante.datePlantation|date('d/m/Y') }})
+                                    <!-- Actions sur la plante -->
+                                    <div class="action-buttons">
+                                        <a href="{{ path('app_plante_edit', { id: plante.id }) }}" 
+                                            class="edit-btn">Modifier</a>
+                                        {% include "plante/_delete_form.html.twig" %}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Aucune plante dans cette parcelle.</p>
+                    {% endif %}
+                </div>
+            {% else %}
+                <p>Aucune parcelle disponible.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

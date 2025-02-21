@@ -1,3 +1,356 @@
-body {
-    background-color: skyblue;
+/**
+ * VARIABLES GLOBALES
+ * Définition des couleurs et valeurs réutilisables dans tout le site
+ * L'utilisation de variables permet de maintenir une cohérence visuelle
+ * et de faciliter les modifications futures
+ */
+ :root {
+    /* Couleurs principales */
+    --primary-color: #2ecc71;    /* Vert - Couleur principale */
+    --secondary-color: #3498db;  /* Bleu - Couleur secondaire */
+    --danger-color: #e74c3c;     /* Rouge - Pour les actions dangereuses */
+    --success-color: #27ae60;    /* Vert foncé - Pour les confirmations */
+    --warning-color: #f1c40f;    /* Jaune - Pour les avertissements */
+
+    /* Couleurs de fond et de texte */
+    --background-color: #f5f6fa; /* Gris très clair - Fond général */
+    --card-background: #ffffff;  /* Blanc - Fond des cartes */
+    --text-color: #2c3e50;      /* Bleu foncé - Texte principal */
+    --border-color: #dcdde1;    /* Gris clair - Bordures */
+    
+    /* Effets */
+    --shadow-color: rgba(0, 0, 0, 0.1); /* Ombre semi-transparente */
 }
+
+/**
+ * RESET ET STYLES DE BASE
+ * Réinitialisation des styles par défaut des navigateurs
+ * et définition des styles de base
+ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Inclut padding et border dans la largeur totale */
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Container principal - Limite la largeur maximale du contenu */
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+
+/**
+ * TYPOGRAPHIE
+ * Styles pour tous les niveaux de titres
+ */
+h1, h2, h3, h4 {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* Titre principal */
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+}
+
+/* Sous-titre avec bordure décorative */
+h2 {
+    font-size: 2rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+/**
+ * NAVIGATION
+ * Barre de navigation avec liens d'action
+ */
+.navigation {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+
+/* Style des liens de navigation */
+.nav-link {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease; /* Animation douce */
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+/* Effet au survol des liens */
+.nav-link:hover {
+    background-color: var(--success-color);
+    transform: translateY(-2px); /* Effet de soulèvement */
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+/**
+ * GRILLE ET CARTES
+ * Organisation des éléments en grille responsive
+ */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Style des cartes individuelles */
+.card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    transition: transform 0.3s ease;
+}
+
+/* Animation au survol des cartes */
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* En-tête des cartes */
+.card h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+/* Paragraphes dans les cartes */
+.card p {
+    margin-bottom: 0.8rem;
+    color: var(--text-color);
+}
+
+/**
+ * LISTES
+ * Style des listes dans les cartes
+ */
+.card ul {
+    list-style: none;
+    margin-top: 1rem;
+}
+
+/* Éléments de liste */
+.card li {
+    padding: 0.8rem;
+    border-radius: 8px;
+    background-color: var(--background-color);
+    margin-bottom: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/**
+ * FORMULAIRES
+ * Styles pour les formulaires et leurs éléments
+ */
+.form {
+    background-color: var(--card-background);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Groupe de champs de formulaire */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Labels des champs */
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+/* Champs de saisie et listes déroulantes */
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+/* Effet de focus sur les champs */
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+}
+
+/**
+ * BOUTONS
+ * Styles pour les différents types de boutons
+ */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Effet au survol des boutons */
+.btn:hover {
+    background-color: var(--success-color);
+    transform: translateY(-2px);
+}
+
+/* Bouton secondaire */
+.btn-secondary {
+    background-color: var(--secondary-color);
+}
+
+.btn-secondary:hover {
+    background-color: #2980b9;
+}
+
+/* Conteneur des boutons dans les formulaires */
+.form-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+/**
+ * MESSAGES D'ERREUR
+ * Styles pour l'affichage des erreurs
+ */
+.errors {
+    background-color: #fdecea;
+    border: 2px solid var(--danger-color);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.errors ul {
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
+.error {
+    color: var(--danger-color);
+    font-weight: 500;
+}
+
+/**
+ * BOUTONS D'ACTION
+ * Styles pour les boutons d'édition et de suppression
+ */
+.action-buttons {
+    display: inline-flex;
+    gap: 0.8rem;
+    margin-left: 1rem;
+}
+
+/* Style commun pour les boutons d'action */
+.edit-btn,
+.delete-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* Bouton d'édition */
+.edit-btn {
+    background-color: var(--secondary-color);
+}
+
+/* Bouton de suppression */
+.delete-btn {
+    background-color: var(--danger-color);
+}
+
+/* Effet au survol des boutons d'action */
+.edit-btn:hover,
+.delete-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/**
+ * RESPONSIVE DESIGN
+ * Adaptations pour les écrans mobiles
+ */
+@media (max-width: 768px) {
+    /* Ajustements du container */
+    .container {
+        padding: 0 1rem;
+    }
+
+    /* Passage à une colonne unique */
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Navigation en colonne */
+    .navigation {
+        flex-direction: column;
+    }
+
+    .nav-link {
+        text-align: center;
+    }
+
+    /* Ajustements des titres de carte */
+    .card h3 {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    /* Centrage des boutons d'action */
+    .action-buttons {
+        margin-left: 0;
+        justify-content: center;
+    }
+
+    /* Réduction du padding des formulaires */
+    .form {
+        padding: 1.5rem;
+    }
+} 
