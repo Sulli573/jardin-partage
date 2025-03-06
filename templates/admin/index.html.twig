@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+<a href="{{ path('app_admin_parcelle_index') }}">Parcelles</a>
+<a href="{{ path('app_admin_plante_index') }}">Plantes</a>
+<a href="{{ path('app_admin_user_index') }}">Utilisateurs</a>
+
+{% endblock %}

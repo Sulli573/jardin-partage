@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Parcelle{% endblock %}
+
+{% block body %}
+    <h1>Parcelle</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Identifiant de la parcelle : </th>
+                <td>{{ parcelle.id }}</td>
+            </tr>
+            <tr>
+                <th>Numéro de la parcelle : </th>
+                <td>{{ parcelle.number }}</td>
+            </tr>
+            <tr>
+                <th>Superficie : </th>
+                <td>{{ parcelle.size }}</td>
+            </tr>
+            <tr>
+                <th>Propriétaire : </th>
+                <td>
+                {% if parcelle.owner %}
+                {{parcelle.owner}}
+                {% else %}
+                 Aucun propriétaire défini pour cette parcelle   
+                {% endif %}
+                
+                </td>
+            </tr>
+            <tr>
+                <th>Créé le : </th>
+                <td>{{ parcelle.createdAt ? parcelle.createdAt|date('d/m/Y H:i') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_parcelle_index') }}">Retour</a>
+
+    <a href="{{ path('app_admin_parcelle_edit', {'id': parcelle.id}) }}">Modifier</a>
+
+    {{ include('admin_parcelle/_delete_form.html.twig') }}
+{% endblock %}

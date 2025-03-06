@@ -3,9 +3,12 @@
 {% block title %}Créé une plante{% endblock %}
 
 {% block body %}
-    <h1>Créé une plante</h1>
-
     <div class="container">
+        <!-- Navigation principale -->
+        {% include "partials/nav.html.twig" %}
+
+        <h1>Créé une plante</h1>
+
         {{ include('plante/_form.html.twig') }}
 
         <a href="{{ path('app_parcelle_index') }}">Retour à la liste</a>

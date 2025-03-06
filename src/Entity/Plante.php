@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PlanteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlanteRepository::class)]
 class Plante
@@ -15,6 +16,12 @@ class Plante
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 1,
+        max: 40,
+        minMessage:"Le nom de la plante doit contenir minimum {{ limit }} caractère(s)",
+        maxMessage:"Le nom de la plante doit être inférieur à {{ limit }} caractère(s)"
+    )]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)] 

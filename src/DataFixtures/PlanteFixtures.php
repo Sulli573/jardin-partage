@@ -12,12 +12,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class PlanteFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function getDependencies(): array
-    {
-        return [
-            ParcelleFixtures::class
-        ];
-    }
     #Pour que les passwords soient hachés et pas en clair :
     public function __construct(private UserPasswordHasherInterface $userPasswordHasher) {
     }
@@ -37,5 +31,12 @@ class PlanteFixtures extends Fixture implements DependentFixtureInterface
             
         }
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            ParcelleFixtures::class
+        ];
     }
 }

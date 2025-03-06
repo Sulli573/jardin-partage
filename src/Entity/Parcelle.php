@@ -6,7 +6,11 @@ use App\Repository\ParcelleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
+// Liste des contraintes https://symfony.com/doc/current/validation.html#constraints
+// = vérifications/contraintes avant d'insérer en base de données (je veux que les données soient inférieur à , supérieure à etc...)
+// Les asserts (contraintes) sont lu au moment du $form->handleRequest($request)
 #[ORM\Entity(repositoryClass: ParcelleRepository::class)]
 class Parcelle
 {
@@ -16,12 +20,16 @@ class Parcelle
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\Positive(message: "Le numéro de la parcelle doit être supérieur à 0")]
     /**
      * Numéro de la pacelle (1 pour première parcelle, 2 pour la deuxième etc...)
      */
     private ?int $number = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank()] // !empty()
+    #[Assert\LessThanOrEqual(value: 100, message: 'La superficie ne peut pas être supérieur à 100m²')]
+    #[Assert\Positive(message: 'La superficie doit être supérieur à 0m²')]
     private ?float $size = null;
 
     #[ORM\Column]
@@ -40,7 +48,10 @@ class Parcelle
     {
         $this->plantes = new ArrayCollection();
     }
-
+    public function __toString()
+    {
+        return "numéro #" . $this->getNumber();
+    }
     public function getId(): ?int
     {
         return $this->id;
