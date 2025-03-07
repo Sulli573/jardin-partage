@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Plante index{% endblock %}
+{% block title %}Liste des plantes{% endblock %}
 
 {% block body %}
-    <h1>Plante index</h1>
+    <h1>Liste des plantes</h1>
 
     <table class="table">
         <thead>
@@ -13,7 +13,7 @@
                 <th>Type</th>
                 <th>DatePlantation</th>
                 <th>PeriodeCroissance</th>
-                <th>CreatedAt</th>
+                <th>Date de création</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -27,8 +27,8 @@
                 <td>{{ plante.periodeCroissance }}</td>
                 <td>{{ plante.createdAt ? plante.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_admin_plante_show', {'id': plante.id}) }}">show</a>
-                    <a href="{{ path('app_admin_plante_edit', {'id': plante.id}) }}">edit</a>
+                    <a href="{{ path('app_admin_plante_show', {'id': plante.id}) }}">Afficher</a>
+                    <a href="{{ path('app_admin_plante_edit', {'id': plante.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -39,6 +39,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_plante_new') }}">Create new</a>
+    <a href="{{ path('app_admin_plante_new') }}">Créer une nouvelle plante</a>
     <a href="{{ path('app_admin') }}">Tableau de Bord</a>
 {% endblock %}

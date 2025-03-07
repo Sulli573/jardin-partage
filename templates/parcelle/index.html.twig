@@ -41,7 +41,9 @@
                                     {{ plante.nom }}
                                     ({{ plante.periodeCroissance }} jours, Planté le: {{ plante.datePlantation|date('d/m/Y') }})
                                     <!-- Actions sur la plante -->
-                                    <div class="action-buttons">
+                                    <div class="action-buttons"> 
+                                    {% include "plante/_delete_form.html.twig" %}
+                                    <a href="{{path("app_plante_edit", {id:plante.id})}}">Modifier la plante</a>
                                     </div>
                                 </li>
                             {% endfor %}
@@ -49,6 +51,7 @@
                     {% else %}
                         <p>Aucune plante dans cette parcelle.</p>
                     {% endif %}
+                    <a href="{{path("app_plante_new")}}">Ajouter une plante</a>
                 </div>
             {% else %}
                 <p>Vous n'avez pas de parcelle.</p>
@@ -56,4 +59,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

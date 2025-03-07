@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Parcelle{% endblock %}
+{% block title %}Modifier une parcelle{% endblock %}
 
 {% block body %}
-    <h1>Edit Parcelle</h1>
+    <h1>Modifier une parcelle</h1>
 
-    {{ include('admin_parcelle/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('admin_parcelle/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('app_admin_parcelle_index') }}">back to list</a>
+    <a href="{{ path('app_admin_parcelle_index') }}">Retour à la liste des parcelles</a>
 
     {{ include('admin_parcelle/_delete_form.html.twig') }}
 {% endblock %}

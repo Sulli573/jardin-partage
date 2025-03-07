@@ -50,13 +50,6 @@ class PlanteType extends AbstractType
                 ]
             ])
            
-            ->add('parcelle', EntityType::class, [
-                'class' => Parcelle::class,
-                'choice_label' => function (Parcelle $parcelle) {
-                    return 'Numéro #' . $parcelle->getNumber();
-                },
-                'choice_value' => 'id',
-            ])
         ;
     }
 

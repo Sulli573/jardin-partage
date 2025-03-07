@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Functionals\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -12,6 +12,6 @@ class HomeControllerTest extends WebTestCase{
         $crawler = $client->request("GET","/");
 
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains("h1","dzddzzdzdzddzd");
+        $this->assertSelectorTextContains("h1","Hello HomeController");
     }
 }

@@ -1,16 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Créé une plante{% endblock %}
+{% block title %}Ajouter une plante{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <!-- Navigation principale -->
-        {% include "partials/nav.html.twig" %}
+    <h1>Ajouter une plante</h1>
 
-        <h1>Créé une plante</h1>
+    {{ include('plante/_form.html.twig') }}
 
-        {{ include('plante/_form.html.twig') }}
-
-        <a href="{{ path('app_parcelle_index') }}">Retour à la liste</a>
-    </div>
+    <a href="{{ path('app_parcelle_index') }}">Retour à la parcelle</a>
 {% endblock %}

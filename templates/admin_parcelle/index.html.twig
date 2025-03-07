@@ -1,17 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Parcelle index{% endblock %}
+{% block title %}Liste des parcelles{% endblock %}
 
 {% block body %}
-    <h1>Parcelle index</h1>
+    <h1>Liste des parcelles</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Number</th>
-                <th>Size</th>
-                <th>CreatedAt</th>
+                <th>Identifiant</th>
+                <th>Numéro</th>
+                <th>Superficie</th>
+                <th>Date de création</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -23,8 +23,8 @@
                 <td>{{ parcelle.size }}</td>
                 <td>{{ parcelle.createdAt ? parcelle.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_admin_parcelle_show', {'id': parcelle.id}) }}">show</a>
-                    <a href="{{ path('app_admin_parcelle_edit', {'id': parcelle.id}) }}">edit</a>
+                    <a href="{{ path('app_admin_parcelle_show', {'id': parcelle.id}) }}">Afficher</a>
+                    <a href="{{ path('app_admin_parcelle_edit', {'id': parcelle.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -35,6 +35,6 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_parcelle_new') }}">Create new</a>
+    <a href="{{ path('app_admin_parcelle_new') }}">Créer une nouvelle parcelle</a>
     <a href="{{ path('app_admin') }}">Tableau de Bord</a>
 {% endblock %}
