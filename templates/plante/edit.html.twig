@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la plante{% endblock %}
+
+{% block body %}
+    <h1>Modifier la plante</h1>
+
+    {{ include('plante/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    <a href="{{ path('app_parcelle_index') }}">Retour à la parcelle</a>
+
+    {{ include('plante/_delete_form.html.twig') }}
+{% endblock %}

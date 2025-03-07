@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des plantes{% endblock %}
+
+{% block body %}
+    <h1>Liste des plantes</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Type</th>
+                <th>DatePlantation</th>
+                <th>PeriodeCroissance</th>
+                <th>Date de création</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for plante in plantes %}
+            <tr>
+                <td>{{ plante.id }}</td>
+                <td>{{ plante.nom }}</td>
+                <td>{{ plante.type }}</td>
+                <td>{{ plante.datePlantation ? plante.datePlantation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ plante.periodeCroissance }}</td>
+                <td>{{ plante.createdAt ? plante.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_plante_show', {'id': plante.id}) }}">Afficher</a>
+                    <a href="{{ path('app_admin_plante_edit', {'id': plante.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_plante_new') }}">Créer une nouvelle plante</a>
+    <a href="{{ path('app_admin') }}">Tableau de Bord</a>
+{% endblock %}
