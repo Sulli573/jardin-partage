@@ -6,6 +6,7 @@ use App\Entity\Plante;
 use App\Form\PlanteType;
 use App\Repository\PlanteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,12 +29,17 @@ final class AdminPlanteController extends AbstractController
         $plante = new Plante();
         $form = $this->createForm(PlanteType::class, $plante);
         $form->handleRequest($request);
-
+       
         if ($form->isSubmitted() && $form->isValid()) {
+            try {
             $entityManager->persist($plante);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_plante_index', [], Response::HTTP_SEE_OTHER);
+            }catch(Exception $e) {
+                $this->addFlash("error","Une erreur est survenue lors de l'ajout de la plante");
+                return $this->redirectToRoute('app_admin_plante_new');
+            }
         }
 
         return $this->render('admin_plante/new.html.twig', [
