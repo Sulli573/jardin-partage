@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ParcelleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ParcelleRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 // Liste des contraintes https://symfony.com/doc/current/validation.html#constraints
@@ -88,7 +89,8 @@ class Parcelle
 
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->createdAt = $createdAt;
+        $timeZone = new DateTimeZone('Europe/Paris');
+        $this->createdAt = ($createdAt)->setTimezone($timeZone);
 
         return $this;
     }

@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\PlanteRepository;
+use DateTimeZone;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PlanteRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlanteRepository::class)]
@@ -121,7 +122,8 @@ class Plante
 
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->createdAt = $createdAt;
+        $timeZone = new DateTimeZone('Europe/Paris');
+        $this->createdAt = ($createdAt)->setTimezone($timeZone);
 
         return $this;
     }
