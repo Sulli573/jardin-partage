@@ -7,6 +7,7 @@ use App\Form\ParcelleType;
 use App\Repository\ParcelleRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,12 +32,19 @@ final class AdminParcelleController extends AbstractController
         $form->handleRequest($request);
         #Soumission du formulaire
         if ($form->isSubmitted() && $form->isValid()) {
+            try{
             $parcelle->setCreatedAt(new DateTimeImmutable());
             $entityManager->persist($parcelle);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_parcelle_index', [], Response::HTTP_SEE_OTHER);
+            }catch(Exception $e){
+                // dd($e); pour débugger 
+                $this->addFlash("danger", "Une erreur est survenue lors de l'ajout de la parcelle");
+                return $this->redirectToRoute('app_admin_parcelle_new');
+            }
         }
+    
 
         return $this->render('admin_parcelle/new.html.twig', [
             'parcelle' => $parcelle,
