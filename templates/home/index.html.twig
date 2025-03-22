@@ -14,6 +14,10 @@
 						<a href="{{ path('app_post_edit', {'id': post.id}) }}">Modifier</a>
 						{% include "post/_delete_form.html.twig" %}
 					{% endif %}
+					{# Va aller chercher l'image à l'intérieur de l'objet post #}
+					{% if post.imageName %}
+						<img src="{{ vich_uploader_asset(post) }}" alt="image">
+					{% endif %}
 					<ul>
 						<li>{{ post.message }}</li>
 						<li>{{ post.user.fullName }}</li>

@@ -4,11 +4,12 @@ namespace App\Form;
 
 use App\Entity\Post;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class PostType extends AbstractType
 {
@@ -25,6 +26,9 @@ class PostType extends AbstractType
                 ],
                 'help' => 'Vous ne pouvez pas écrire plus de 1000 caractères',
                 
+            ])
+            ->add('imageFile',VichImageType::class,[
+                'label' => 'image',
             ])
             
         ;
