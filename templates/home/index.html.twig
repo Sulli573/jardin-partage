@@ -3,49 +3,93 @@
 {% block title %}Hello HomeController!
 {% endblock %}
 
+{% block stylesheets %}
+	<link rel="stylesheets" href="{{ asset('styles/home.css') }}">
+{% endblock %}
+
 {% block body %}
 	{# app.user équivaut à $this->user et récupére l'utilisateur connecté #}
-	<div class="section">
-		{% if app.user %}
-			<a href="{{ path('app_post_new') }}">Ajouter un post</a>
-			{% for post in posts %}
-				<div class="card" style="margin-bottom:40px;">
-					{% if post.user == app.user %}
-						<a href="{{ path('app_post_edit', {'id': post.id}) }}">Modifier</a>
-						{% include "post/_delete_form.html.twig" %}
-					{% endif %}
-					{# Va aller chercher l'image à l'intérieur de l'objet post #}
-					{% if post.imageName %}
-						<img src="{{ vich_uploader_asset(post) }}" alt="image">
-					{% endif %}
-					<ul>
-						<li>{{ post.message }}</li>
-						<li>{{ post.user.fullName }}</li>
-						<li>{{ post.createdAt|date('d/m/Y H:i') }}</li>
-						<li></li>
-					</ul>
-					{# initialisation du formulaire #}
-                    {# $post->getId() est du php natif et équivaut à post.id en twig #}
-					{{ form_start(commentForm[post.id]) }}
-					    {{ form_widget(commentForm[post.id]) }}
-					    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
-					{{ form_end(commentForm[post.id]) }}
 
-					{% for comment in post.comments|sort((a, b) => b.createdAt <=> a.createdAt)%}
-					<div>
-						{% if comment.user == app.user %}
-							<a href="{{ path('app_comment_edit', {'id': comment.id}) }}">Modifier</a>
-							{% include "comment/_delete_form.html.twig" %}
+	<div class="section">
+
+		{% if app.user %}
+
+			<a href="{{ path('app_post_new') }}" class="btn">Ajouter un post</a>
+
+			<div class="posts">
+				{% for post in posts %}
+
+					<div class="card">
+						<div class="card-header">
+
+							<div class="card-header-info">
+								<span>{{ post.user.fullName }}</span>
+								<span>{{ post.createdAt|date('d/m/Y H:i') }}</span>
+							</div>
+
+							{% if post.user == app.user %}
+								<div class="card-header-action">
+									<a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn">Modifier</a>
+									{% include "post/_delete_form.html.twig" %}
+								</div>
+							{% endif %}
+						</div>
+						<hr>
+						<div class="card-message">
+							{{ post.message }}
+						</div>
+						{% if post.imageName %}
+							<div
+								class="card-image">
+								{# Va aller chercher l'image à l'intérieur de l'objet post #}
+
+								<img src="{{ vich_uploader_asset(post) }}" alt="image">
+							</div>
 						{% endif %}
-						{{comment.message}}
-						{{comment.user.fullName}}
-					</div>	
-					{% endfor %}
-				</div>
-			{% endfor %}
+						<hr>
+
+
+						<div class="card-coment">
+							{# initialisation du formulaire #}
+							{# $post->getId() est du php natif et équivaut à post.id en twig #}
+							{{ form_start(commentForm[post.id]) }}
+							{{ form_row(commentForm[post.id]) }}
+								<button class="btn"> {{ button_label|default('Enregistrer') }}</button>
+							{{ form_end(commentForm[post.id]) }}
+
+							{% for comment in post.comments|sort((a, b) => b.createdAt <=> a.createdAt)%}
+
+								<div class="card-comment-item">
+									<div class="card-comment-message">
+										<span>{{comment.user.fullName}}</span>
+										<span>{{comment.message}}</span>
+									</div>
+
+									{% if comment.user == app.user %}
+										<div class="card-comment-actions">
+											<a href="{{ path('app_comment_edit', {'id': comment.id}) }}" class="btn">Modifier</a>
+											{% include "comment/_delete_form.html.twig" %}
+										</div>
+									{% endif %}
+
+
+								</div>
+								{# n'afficher un hr que si ce n'est pas le dernier commentaire  #}
+								{% if not loop.last %}
+									<hr>
+								{% endif %}
+							{% endfor %}
+
+						</div>
+					</div>
+				{% endfor %}
+			</div>
 		{% else %}
-			<a href="{{ path('app_login') }}">Se connecter</a>
-			<a href="{{ path('app_register') }}">S'inscrire</a>
+			<div class="home_img">
+				<img src="{{ asset("images/potager_home.jpg") }}">
+			</div>
+
 		{% endif %}
+
 	</div>
 {% endblock %}
