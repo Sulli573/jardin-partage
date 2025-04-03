@@ -5,7 +5,9 @@
 {% block body %}
     <h1>Nouveau Post</h1>
 
+    <div class="post-form-container">
     {{ include('post/_form.html.twig') }}
 
-    <a href="{{ path('app_home') }}">Retour au Post</a>
+    <a href="{{ path('app_home') }}" class="btn">Retour au Post</a>
+    </div>
 {% endblock %}

@@ -1,0 +1,33 @@
+.post-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.post-form-container .btn  {
+    width: 100%;
+    text-align: center;
+}
+
+.post_form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.post-form-input {
+    display: flex;
+    flex-direction: column;
+}
+
+#post {
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    margin-bottom: 10px;
+}
+
