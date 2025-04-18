@@ -8,14 +8,10 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ post.id }}</td>
-            </tr>
-            <tr>
                 <th>Message</th>
                 <td>
                 {{ post.message }}
-                <p>{{ post.getLenghtMessage}}</p>
+                <p>Nombre de caractères : {{ post.getLenghtMessage}}</p>
                 </td>
             </tr>
             <tr>
