@@ -10,12 +10,13 @@ use App\Repository\PostRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
+use MessageInterface;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[Vich\Uploadable]
-class Post
+class Post implements MessageInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -66,6 +67,12 @@ class Post
         return $this->id;
     }
 
+    public function getLenghtMessage(): int
+    {
+        return strlen($this->message);
+        
+    }
+
     public function getMessage(): ?string
     {
         return $this->message;
@@ -101,6 +108,11 @@ class Post
         $this->createdAt = ($createdAt)->setTimezone($timeZone);
 
         return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 
     /**
