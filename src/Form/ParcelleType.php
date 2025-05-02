@@ -22,6 +22,7 @@ class ParcelleType extends AbstractType
             ->add('number', IntegerType::class, [
                 'label' => "Numéro de la parcelle",
                 'attr' => [
+                    'min'=>1,
                     'placeholder' => "Définir un nombre",
                 ],
                 'required' => true, // true est par defaut, donc pas besoin de mettre required

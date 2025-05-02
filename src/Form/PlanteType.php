@@ -23,7 +23,10 @@ class PlanteType extends AbstractType
                 'attr' => [
                     'minLength' => 1,
                     'maxLength' => 40,
-                ]
+                ],
+                'row_attr' => [
+                    'class' => 'plante-form-input'
+                ],
                 #required est à true par défaut
             ])
             ->add('type', TextType::class, [
@@ -31,7 +34,10 @@ class PlanteType extends AbstractType
                 'attr' => [
                     'minLength' => 1,
                     'maxLength' => 40,
-                ]
+                ],
+                'row_attr' => [
+                    'class' => 'plante-form-input'
+                ],
             ])
             #DateTimeType va mettre date et heure DateType que la date
             ->add('datePlantation', DateType::class, [
@@ -40,14 +46,20 @@ class PlanteType extends AbstractType
                 'attr' => [
                     // penser à mettre coté serveur avec assert, pas possible de mettre des jours avant la date de plantation
                     'min' => (new \DateTime())->format('Y-m-d')
-                ]
+                ],
+                'row_attr' => [
+                    'class' => 'plante-form-input'
+                ],
             ])
             ->add('periodeCroissance', IntegerType::class, [
                 'label' => "Periode de croissance (jour)",
                 // 'help' => "Saisir en nombre de jours"
                 'attr' => [
                     'min' => 1,
-                ]
+                ],
+                'row_attr' => [
+                    'class' => 'plante-form-input'
+                ],
             ])
            
         ;
@@ -57,9 +69,9 @@ class PlanteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Plante::class,
-            // Ajouter la class .form à la balise form (<form class="form">)
+            // Ajouter la class .form à la balise form (<form class="plante-form">)
             'attr' => [
-                'class' => 'form'
+                'class' => 'plante_form'
             ],
         ]);
     }

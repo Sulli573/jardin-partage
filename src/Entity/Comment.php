@@ -5,11 +5,12 @@ namespace App\Entity;
 use DateTimeZone;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Interface\MessageInterface;
 use App\Repository\CommentRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
-class Comment
+class Comment implements MessageInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -54,6 +55,12 @@ class Comment
         $this->post = $post;
 
         return $this;
+    }
+
+    public function getLenghtMessage(): int
+    {
+        return strlen($this->message);
+        
     }
 
     public function getMessage(): ?string

@@ -8,12 +8,11 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ post.id }}</td>
-            </tr>
-            <tr>
                 <th>Message</th>
-                <td>{{ post.message }}</td>
+                <td>
+                {{ post.message }}
+                <p>Nombre de caractères : {{ post.getLenghtMessage}}</p>
+                </td>
             </tr>
             <tr>
                 <th>CreatedAt</th>
@@ -30,9 +29,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_post_index') }}">back to list</a>
+    <a href="{{ path('app_admin_post_index') }}">Retour à la liste</a>
 
-    <a href="{{ path('app_admin_post_edit', {'id': post.id}) }}">edit</a>
+    <a href="{{ path('app_admin_post_edit', {'id': post.id}) }}">Modifier</a>
 
     {{ include('admin_post/_delete_form.html.twig') }}
 {% endblock %}

@@ -21,34 +21,50 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email' , EmailType::class, [
-                'label'=>'email'
+            ->add('email', EmailType::class, [
+                'label' => 'email',
+                'row_attr' => [
+                    'class' => "form-input",
+                ]
             ])
-            ->add('lastname', TextType::class,[
-                'label'=> 'Nom',
-        
+            ->add('lastname', TextType::class, [
+                'label' => 'Nom',
+                'row_attr' => [
+                    'class' => "form-input",
+                ]
+
             ])
-            ->add('firstname', TextType::class,[
-                'label'=> 'Prénom',
-        
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom',
+                'row_attr' => [
+                    'class' => "form-input",
+                ]
+
             ])
             ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
-                'type'=>PasswordType::class,
-                'invalid_message'=>'les mots de passe doivent correspondre',
-                'first_options'=>[
-                    'label'=>'mot de passe',
-                    'help'=>'',
-                    'constraints'=>[
+                'type' => PasswordType::class,
+                'invalid_message' => 'les mots de passe doivent correspondre',
+                'first_options' => [
+                    'label' => 'mot de passe',
+                    'row_attr' => [
+                        'class' => "form-input",
+                    ],
+                    'help' => '',
+                    'constraints' => [
                         new Regex(
-                            pattern:'/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/', 
-                            message:"Veuillez créer un mot de passe d'au moins 12 caractères, incluant une majuscule, une minuscule, un chiffre et un caractère spécial (@$!%*?&).")
+                            pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$/',
+                            message: "Veuillez créer un mot de passe d'au moins 12 caractères, incluant une majuscule, une minuscule, un chiffre et un caractère spécial (@$!%*?&)."
+                        )
                     ],
                 ],
-                'second_options'=>[
-                    
-                    'label'=>'repeter le mot de passe',
+                'second_options' => [
+
+                    'label' => 'repeter le mot de passe',
+                    'row_attr' => [
+                        'class' => "form-input",
+                    ]
                 ],
                 #Il n'y a pas de lien avec l'entité User, plainPassword n'est pas une propriété de User (logique dans RegistrationController.php)
                 'mapped' => false,
@@ -60,6 +76,9 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'attr'=>[
+                'class'=>'form-registration'
+            ]
         ]);
     }
 }

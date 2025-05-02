@@ -5,9 +5,11 @@
 {% block body %}
     <h1>Modifier un Post</h1>
 
+    <div class="post-form-container">
     {{ include('post/_form.html.twig', {'button_label': 'Modifier'}) }}
 
     <a href="{{ path('app_home') }}">Retour page d'accueil</a>
 
     {{ include('post/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

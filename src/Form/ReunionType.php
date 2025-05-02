@@ -2,37 +2,37 @@
 
 namespace App\Form;
 
-use App\Entity\Post;
-use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Reunion;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class Post1Type extends AbstractType
+class ReunionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('message')
-            ->add('createdAt', null, [
+            ->add('date', null, [
                 'widget' => 'single_text'
             ])
-            ->add('imageName')
-            ->add('updatedAt', null, [
-                'widget' => 'single_text'
+            ->add('lieu')
+            ->add('subject')
+            ->add('content', TextareaType::class,[
+                'attr' => [
+                    'rows' => 5,
+                    'cols' => 100,
+                    'maxlength' =>1000,
+                ],
             ])
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-'choice_label' => 'id',
-            ])
+            
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Post::class,
+            'data_class' => Reunion::class,
         ]);
     }
 }

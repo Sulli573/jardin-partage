@@ -1,0 +1,125 @@
+.section{
+    margin:25px 40px;
+}
+
+.home_img > img {
+    width: 100%;
+}
+
+.posts {
+    margin-top: 10px;
+}
+
+/* Style des cartes individuelles */
+.card {
+    background-color: var(--card-background);
+    border-radius: 12px;
+    border:2px solid black;
+    padding: 1.5rem;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    transition: transform 0.3s ease;
+}
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+/* Animation au survol des cartes */
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header-action {
+    display: flex;
+    gap: 25px;
+}
+
+.card-message {
+    margin: 15px 0;
+}
+
+.card-image {
+    margin-bottom: 15px;
+    width: 50%;
+}
+.card-image img{
+    border-radius: 25px;
+    width: 100%;
+}
+
+
+.card-coment {
+    margin-top:15px;
+}
+
+.card-comment-item {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.card-form-comment {
+    display:flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+
+.card-form-comment textarea {
+    margin-left:20px;
+    margin-bottom:20px;
+}
+
+.card-comment-message {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-comment-actions {
+    display: flex;
+    gap : 25px;
+}
+
+/* En-tête des cartes */
+.card h3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+/* Paragraphes dans les cartes */
+.card p {
+    margin-bottom: 0.8rem;
+    color: var(--text-color);
+}
+
+/**
+ * LISTES
+ * Style des listes dans les cartes
+ */
+.card ul {
+    list-style: none;
+    margin-top: 1rem;
+}
+
+/* Éléments de liste */
+.card li {
+    padding: 0.8rem;
+    border-radius: 8px;
+    background-color: var(--background-color);
+    margin-bottom: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}

@@ -56,10 +56,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $comments;
 
+    /**
+     * @var Collection<int, InscriptionReunion>
+     */
+    #[ORM\OneToMany(targetEntity: InscriptionReunion::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $inscriptionReunions;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->inscriptionReunions = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -237,6 +244,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, InscriptionReunion>
+     */
+    public function getInscriptionReunions(): Collection
+    {
+        return $this->inscriptionReunions;
+    }
+
+    public function addInscriptionReunion(InscriptionReunion $inscriptionReunion): static
+    {
+        if (!$this->inscriptionReunions->contains($inscriptionReunion)) {
+            $this->inscriptionReunions->add($inscriptionReunion);
+            $inscriptionReunion->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscriptionReunion(InscriptionReunion $inscriptionReunion): static
+    {
+        if ($this->inscriptionReunions->removeElement($inscriptionReunion)) {
+            // set the owning side to null (unless already changed)
+            if ($inscriptionReunion->getUser() === $this) {
+                $inscriptionReunion->setUser(null);
             }
         }
 

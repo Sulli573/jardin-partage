@@ -1,0 +1,13 @@
+.reset-container{
+    display: flex;
+    justify-content: center ;
+    flex-direction: column; 
+    align-items: center;
+}
+
+.reset-form {
+        width: 250px;
+        display: flex;
+        justify-content: center ;
+        flex-direction: column;   
+    }

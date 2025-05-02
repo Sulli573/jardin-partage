@@ -1,0 +1,33 @@
+.plante-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.plante-form-container .btn,
+.plante-form-container form {
+    width: 100%;
+    text-align: center;
+}
+
+.plante_form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.plante-form-input {
+    display: flex;
+    flex-direction: column;
+}
+
+#plante {
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    margin-bottom: 10px;
+}

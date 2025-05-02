@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\PostRepository;
+use App\Repository\ReunionRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(PostRepository $postRepository): Response
+    public function index(PostRepository $postRepository, ReunionRepository $reunionRepository): Response
     {
         /** @var Post[] $posts */
         $posts = $postRepository->findBy([], ['createdAt'=>'desc']);
@@ -30,11 +31,14 @@ final class HomeController extends AbstractController
             ]);
             $commentForm[$post->getId()] = $form->createView();
         }
+        $reunions = $reunionRepository->findAll();
+
         return $this->render('home/index.html.twig', [
             // je donne à la vue les posts et le formulaire de chaque commentaire pour chaque post
             'posts' => $posts,
             // tous les formulaires
             'commentForm' => $commentForm,
+            'reunions' => $reunions
         ]);
     }
 }
