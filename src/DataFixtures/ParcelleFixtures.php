@@ -28,4 +28,5 @@ class ParcelleFixtures extends Fixture
         
         $manager->flush(); // met toutes les parcelles en base de données.  
     }
+    
 }
