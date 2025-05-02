@@ -47,7 +47,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $passwordHasher = $this->userPasswordHasher->hashPassword($user2, $plainPassword);
         $user2->setPassword($passwordHasher);
         $user2->setRoles(['ROLE_USER']);
-        $user->setParcelle($this->getReference('parcelle2',Parcelle::class));
+        $user2->setParcelle($this->getReference('parcelle2',Parcelle::class));
         $manager->persist($user2);
 
         $manager->flush();
