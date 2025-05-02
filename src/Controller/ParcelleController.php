@@ -32,15 +32,4 @@ final class ParcelleController extends AbstractController
             'parcelle' => $parcelle
         ]);
     }
-
-    // <a href="{{ path('app_parcelle_new') }}">Ajouter une parcelle</a>
-    // <a href="/parcelle/new">Ajouter une parcelle</a>
-
-   
-    #Donc /parcelle/id
-    /**
-     * Va chercher la parcelle qui as l'id {id} (ex: 5)
-     * Donc Parcelle $parcelle aura toutes les données de la parcelle qui as l'id 5
-     */
-  
 }

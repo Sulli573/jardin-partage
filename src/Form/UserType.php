@@ -14,19 +14,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
-    public function __construct(private UserRoleEnum $userRoleEnum)
-    {
-        
-    }
+    public function __construct(private UserRoleEnum $userRoleEnum) {}
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('email')
-            ->add('roles', ChoiceType::class,[
-                'label'=>"Rôles",
-                'choices'=>array_flip($this->userRoleEnum->getRoles()),
-                'multiple'=>true,
-                'expanded'=>true,
+            ->add('roles', ChoiceType::class, [
+                'label' => "Rôles",
+                'choices' => array_flip($this->userRoleEnum->getRoles()),
+                'multiple' => true,
+                'expanded' => true,
             ])
             ->add('lastname')
             ->add('firstname')
@@ -34,12 +31,10 @@ class UserType extends AbstractType
                 'class' => Parcelle::class,
                 // 'choice_label' => '',
                 #p est la table parcelle, p.ower : left join avec la table user where id de la table user est null
-                'query_builder'=> function(EntityRepository $er){
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder("p")
-                    ->leftJoin('p.owner', 'u') 
-                    ->where('u.id IS NULL');
-                        
-                        
+                        ->leftJoin('p.owner', 'u')
+                        ->where('u.id IS NULL');
                 }
             ])
         ;
@@ -49,8 +44,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'roles'=>[],
+            'roles' => [],
         ]);
     }
-  
 }

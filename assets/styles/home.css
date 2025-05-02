@@ -47,7 +47,13 @@
 
 .card-image {
     margin-bottom: 15px;
+    width: 50%;
 }
+.card-image img{
+    border-radius: 25px;
+    width: 100%;
+}
+
 
 .card-coment {
     margin-top:15px;

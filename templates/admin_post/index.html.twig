@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Post index{% endblock %}
+{% block title %}Liste des Posts{% endblock %}
 
 {% block body %}
-    <h1>Post index</h1>
+    <h1>Liste des Posts</h1>
 
     <table class="table">
         <thead>
@@ -23,17 +23,17 @@
                 <td>{{ post.imageName }}</td>
                 <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_admin_post_show', {'id': post.id}) }}">show</a>
-                    <a href="{{ path('app_admin_post_edit', {'id': post.id}) }}">edit</a>
+                    <a href="{{ path('app_admin_post_show', {'id': post.id}) }}">Afficher</a>
+                    <a href="{{ path('app_admin_post_edit', {'id': post.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="6">no records found</td>
+                <td colspan="6">Pas de post trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_post_new') }}">Create new</a>
+    <a href="{{ path('app_admin_post_new') }}">Nouveau</a>
 {% endblock %}

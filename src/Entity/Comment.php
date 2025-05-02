@@ -5,7 +5,7 @@ namespace App\Entity;
 use DateTimeZone;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\interface\MessageInterface;
+use App\Interface\MessageInterface;
 use App\Repository\CommentRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 

@@ -10,7 +10,7 @@ class UserRoleEnum {
     public function getRoles() {
         return [
            "ROLE_ADMIN"=> self::ROLE_ADMIN,
-            "ROLE_USER"=>self::ROLE_USER
+            "ROLE_USER"=>self::ROLE_USER,
         ];
     }
 }

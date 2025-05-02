@@ -9,10 +9,24 @@
 
 {% block body %}
 	{# app.user équivaut à $this->user et récupére l'utilisateur connecté #}
-
 	<div class="section">
-
 		{% if app.user %}
+
+			<div>
+				<b>Prochaine(s) réunion(s):</b>
+				{% for reunion in reunions %}
+					<div>
+						<p>{{ reunion.lieu }}</p>
+						<p>{{ reunion.date | date('d/m/Y H:i') }}</p>
+						<p>{{ reunion.subject }}</p>
+						<p>{{ reunion.content }}</p>
+						<div align="center">
+						<a href="{{ path('app_reunion_register',{'id':reunion.id})}}"><b>S'inscrire</b></a>
+						<a href="{{ path('app_reunion_unsubscribe',{'id':reunion.id})}}"><b>Se désincrire</b></a>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
 
 			<a href="{{ path('app_post_new') }}" class="btn">Ajouter un post</a>
 
@@ -51,7 +65,7 @@
 
 						<div class="card-coment">
 							{# initialisation du formulaire #}
-							{# $post->getId() est du php natif et équivaut à post.id en twig #}
+							{#   post.id en twig  équivaut à $post->getId() en php natif #}
 							{{ form_start(commentForm[post.id]) }}
 							{{ form_row(commentForm[post.id]) }}
 								<button class="btn"> {{ button_label|default('Enregistrer') }}</button>

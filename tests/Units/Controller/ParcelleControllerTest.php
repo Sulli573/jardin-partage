@@ -16,25 +16,31 @@ class ParcelleControllerTest extends WebTestCase
 {
     public function testIndex()
     {
+        /** @var ParcelleRepository&\PHPUnit\Framework\MockObject\MockObject $parcelleRepository */
         $parcelleRepository = $this->createMock(ParcelleRepository::class);
         $tokenStorage = $this->createMock(TokenStorageInterface::class);
+        /** @var User&\PHPUnit\Framework\MockObject\MockObject $user */
         $user = $this->createMock(User::class);
         $token = $this->createMock(TokenInterface::class);
         $parcelle = new Parcelle(); // Créez un objet Parcelle pour le test
-        $user->setParcelle($parcelle);
+        $parcelle->setNumber(1);
+        $parcelle->setSize(100);
+        $parcelle->setCreatedAt(new \DateTimeImmutable());
+        $parcelle->setOwner($user);
 
         $tokenStorage->method('getToken')->willReturn($token);
         $token->method('getUser')->willReturn($user);
         $user->method('getParcelle')->willReturn($parcelle);
+        $user->method('getFullname')->willReturn('John Doe');
 
         $controller = new ParcelleController();
-        $controller->setContainer($this->getContainer());
+        $container = $this->getContainer();
+        $container->set('security.token_storage', $tokenStorage);
+        $controller->setContainer($container);
 
-        
         $response = $controller->index($parcelleRepository);
 
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertSame('parcelle/index.html.twig', $response->headers->get('X-Template'));
-        $this->assertSame('parcelle_test', $response->headers->get('X-Template-Vars')['parcelle']);
+        $this->assertStringContainsString('Ma parcelle', $response->getContent());
     }
 }
