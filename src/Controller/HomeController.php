@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Entity\Comment;
 use App\Form\CommentType;
+use App\Service\TestJson;
+use App\Service\MeteoService;
 use App\Repository\PostRepository;
 use App\Repository\ReunionRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +16,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(PostRepository $postRepository, ReunionRepository $reunionRepository): Response
+    public function index(PostRepository $postRepository, ReunionRepository $reunionRepository, MeteoService $meteoService, TestJson $test): Response
     {
+        $apiJson = $test->fetchInfo();
+        $tableauMeteo = $meteoService->fetchInformations();
         /** @var Post[] $posts */
         $posts = $postRepository->findBy([], ['createdAt'=>'desc']);
         // tableau qui va contenir tous les formulaires des commentaires (1 commentaire par formulaire)
@@ -38,7 +42,9 @@ final class HomeController extends AbstractController
             'posts' => $posts,
             // tous les formulaires
             'commentForm' => $commentForm,
-            'reunions' => $reunions
+            'reunions' => $reunions,
+            'meteo' => $tableauMeteo
+
         ]);
     }
 }
