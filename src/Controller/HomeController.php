@@ -18,7 +18,8 @@ final class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(PostRepository $postRepository, ReunionRepository $reunionRepository, MeteoService $meteoService, TestJson $test): Response
     {
-        $apiJson = $test->fetchInfo();
+
+        // $apiJson = $test->fetchInfo();
         $tableauMeteo = $meteoService->fetchInformations();
         /** @var Post[] $posts */
         $posts = $postRepository->findBy([], ['createdAt'=>'desc']);

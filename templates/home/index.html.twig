@@ -10,6 +10,15 @@
 {% block body %}
 	{# app.user équivaut à $this->user et récupére l'utilisateur connecté #}
 	<div class="section">
+	<div>
+	<p>La météo :</p>
+{% for day in meteo %}
+	{% for key,heure in day %}
+
+ {{key}} : {{heure.temperature["2m"]}} kelvin
+	{% endfor %}
+{% endfor %}
+	</div>
 		{% if app.user %}
 
 			<div>
