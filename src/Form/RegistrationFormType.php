@@ -21,6 +21,7 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+        //contrainte format (empecher d'entrer un email non valide)
             ->add('email', EmailType::class, [
                 'label' => 'email',
                 'row_attr' => [
