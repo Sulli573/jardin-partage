@@ -35,6 +35,7 @@ jobs:
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Install JavaScript Dependencies
       run: |
+        php bin/console importmap:install
         php bin/console asset-map:compile
     - name: Create Database
       env:
