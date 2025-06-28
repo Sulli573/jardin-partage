@@ -53,13 +53,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Execute SSH Commands
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@latest
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /public_html/jardin-partage
+            cd /public_html/
             git pull
             composer install
             php bin/console asset-map:compile
