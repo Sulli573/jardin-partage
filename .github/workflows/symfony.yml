@@ -73,26 +73,31 @@ jobs:
       - name: Whitelist IP on hosting & delete github old ones without 2FA
         shell: bash
         run: |
+          set -e
           URL_ENCODED_PASSWORD=$(echo -n "${{ secrets.PASSWORD }}" | jq -sRr @uri)
-          ENDPOINT="https://${{ secrets.SSH_USER }}:$URL_ENCODED_PASSWORD@${{ secrets.SSH_HOST }}:2083/frontend/o2switch/o2switch-ssh-whitelist/index.live.php"
+          ENDPOINT="https://${{ secrets.SSH_USER }}:${URL_ENCODED_PASSWORD}@${{ secrets.SSH_HOST }}:2083/frontend/o2switch/o2switch-ssh-whitelist/index.live.php"
 
           echo "Get actual whitelisted IPs..."
-          UNIQUE_IPS=$(curl -sX GET "$ENDPOINT?r=list" | jq -r '.data.list[] | .address' | sort -u)
+          UNIQUE_IPS=$(curl -sX GET "$ENDPOINT?r=list" | jq -r '.data.list[]?.address' | sort -u)
+
           for address in $UNIQUE_IPS; do
-            if [[ $address == "$#{{ inputs.ip_to_keep }}" ]]; then
-                echo "Keep this IP, go to the next..."
-                continue
+            if [[ "$address" == "${{ inputs.ip_to_keep }}" ]]; then
+              echo "Keep this IP: $address"
+              continue
             fi
-            echo "Delete this github IP: $address (in & out)"
-            curl -sX GET "$ENDPOINT?r=remove&address=$address&direction=in&port=22" | jq
+            echo "Delete this GitHub IP: $address (in & out)"
+            curl -sX GET "$ENDPOINT?r=remove&address=$address&direction=in&port=22" | jq || true
             sleep 3
-            curl -sX GET "$ENDPOINT?r=remove&address=$address&direction=out&port=22" | jq
+            curl -sX GET "$ENDPOINT?r=remove&address=$address&direction=out&port=22" | jq || true
             sleep 3
           done
-          echo "All non-whitelisted IPs deleted!"
+          echo "All non-kept IPs deleted."
 
-          echo "Attempt to whitelist IP..."
-          curl -sX POST -d 'whitelist[address]=${{ steps.ip.outputs.ipv4 }}' -d 'whitelist[port]=22' "$ENDPOINT?r=add" | jq
+          echo "Attempt to whitelist current IP: ${{ steps.ip.outputs.ipv4 }}"
+          curl -sX POST \
+            -d "whitelist[address]=${{ steps.ip.outputs.ipv4 }}" \
+            -d "whitelist[port]=22" \
+            "$ENDPOINT?r=add" | jq
 
       - name: Deploy on main
         uses: appleboy/ssh-action@v1.2.2
