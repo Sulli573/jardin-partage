@@ -73,16 +73,21 @@ jobs:
 
       - name: Whitelist runner IP and clean old ones
         shell: bash
+        env:
+          IPS_TO_KEEPS: ${{ secrets.IPS_TO_KEEPS }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
           set -e
-          URL_ENCODED_PASSWORD=$(echo -n "${{ secrets.PASSWORD }}" | jq -sRr @uri)
-          ENDPOINT="https://${{ secrets.SSH_USER }}:${URL_ENCODED_PASSWORD}@${{ secrets.SSH_HOST }}:2083/frontend/o2switch/o2switch-ssh-whitelist/index.live.php"
+          URL_ENCODED_PASSWORD=$(echo -n "$PASSWORD" | jq -sRr @uri)
+          ENDPOINT="https://${SSH_USER}:${URL_ENCODED_PASSWORD}@${SSH_HOST}:2083/frontend/o2switch/o2switch-ssh-whitelist/index.live.php"
 
           echo "Get actual whitelisted IPs..."
           UNIQUE_IPS=$(curl -sX GET "$ENDPOINT?r=list" | jq -r '.data.list[]?.address' | sort -u)
 
           # Parse comma-separated IPs to keep
-          IFS=',' read -ra KEEP_IPS <<< "${{ secrets.IPS_TO_KEEPS }}"
+          IFS=',' read -ra KEEP_IPS <<< "$IPS_TO_KEEPS"
 
           echo "IPs to keep from secret:"
           for keep in "${KEEP_IPS[@]}"; do
@@ -112,7 +117,7 @@ jobs:
 
           echo "Attempt to whitelist current IP: ${{ steps.ip.outputs.ipv4 }}"
           curl -sX POST \
-            -d "whitelist[address]=${{ steps.ip.outputs.ipv4 }}" \
+            -d "whitelist[address]=$(echo "${{ steps.ip.outputs.ipv4 }}")" \
             -d "whitelist[port]=22" \
             "$ENDPOINT?r=add" | jq
 
