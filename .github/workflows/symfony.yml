@@ -3,6 +3,12 @@ on:
   push:
     branches: [ "main" ]
 
+inputs:
+  ip_to_keep:
+    description: 'The IP to keep in the whitelist.'
+    required: false
+    default: ''
+
 jobs:
   symfony-tests:
     runs-on: ubuntu-latest
@@ -60,23 +66,34 @@ jobs:
         with:
           php-version: '8.2'
 
-      - name: Public IP
+      - name: Getting runner public IP
         id: ip
         uses: haythem/public-ip@v1.3
 
-        # Whitelist the public IP of the runner on the remote server by adding it to the SSH whitelist and wait 65 seconds for the IP to be whitelisted
-      - shell: bash
+      - name: Whitelist IP on hosting & delete github old ones without 2FA
+        shell: bash
         run: |
-          curl -sX GET 'https://${{ secrets.SSH_USERNAME }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.SSH_HOST }}:2083/frontend/o2switch/o2switch-ssh-whitelist/index.live.php' | fgrep 'index.live.php' | fgrep 'index.live.php?r=remove&address=' | cut -d '"' -f 2 | while read ipToRemove
-          do 
-            curl -sX GET 'https://${{ secrets.SSH_USERNAME }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.SSH_HOST }}:2083/frontend/o2switch/o2switch-ssh-whitelist/'$ipToRemove > /dev/null 2>&1
+          URL_ENCODED_PASSWORD=$(echo -n "${{ secrets.PASSWORD }}" | jq -sRr @uri)
+          ENDPOINT="https://${{ secrets.SSH_USER }}:$URL_ENCODED_PASSWORD@${{ secrets.SSH_HOST }}:2083/frontend/o2switch/o2switch-ssh-whitelist/index.live.php"
+
+          echo "Get actual whitelisted IPs..."
+          UNIQUE_IPS=$(curl -sX GET "$ENDPOINT?r=list" | jq -r '.data.list[] | .address' | sort -u)
+          for address in $UNIQUE_IPS; do
+            if [[ $address == "$#{{ inputs.ip_to_keep }}" ]]; then
+                echo "Keep this IP, go to the next..."
+                continue
+            fi
+            echo "Delete this github IP: $address (in & out)"
+            curl -sX GET "$ENDPOINT?r=remove&address=$address&direction=in&port=22" | jq
+            sleep 3
+            curl -sX GET "$ENDPOINT?r=remove&address=$address&direction=out&port=22" | jq
+            sleep 3
           done
-          curl -X POST \
-            -d 'whitelist[address]=${{ steps.ip.outputs.ipv4 }}' \
-            -d 'whitelist[port]=22' \
-            'https://${{ secrets.SSH_USERNAME }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.SSH_HOST }}:2083/frontend/o2switch/o2switch-ssh-whitelist/index.live.php?r=add'  > /dev/null 2>&1
-          curl -sX GET 'https://${{ secrets.SSH_USERNAME }}:${{ secrets.URL_ENCODED_PASSWORD }}@${{ secrets.SSH_HOST }}:2083/frontend/o2switch/o2switch-ssh-whitelist/index.live.php' | fgrep -q '${{ steps.ip.outputs.ipv4 }}' && echo "IP whitelisted"
-          sleep 65
+          echo "All non-whitelisted IPs deleted!"
+
+          echo "Attempt to whitelist IP..."
+          curl -sX POST -d 'whitelist[address]=${{ steps.ip.outputs.ipv4 }}' -d 'whitelist[port]=22' "$ENDPOINT?r=add" | jq
+
       - name: Deploy on main
         uses: appleboy/ssh-action@v1.2.2
         with:
