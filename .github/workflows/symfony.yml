@@ -3,12 +3,6 @@ on:
   push:
     branches: [ "main" ]
 
-inputs:
-  ip_to_keep:
-    description: 'The IP to keep in the whitelist.'
-    required: false
-    default: ''
-
 jobs:
   symfony-tests:
     runs-on: ubuntu-latest
@@ -26,9 +20,12 @@ jobs:
       - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
         with:
           php-version: '8.2'
+
       - uses: actions/checkout@v4
+
       - name: Copy .env.test.local
         run: php -r "file_exists('.env.test.local') || copy('.env.test', '.env.test.local');"
+
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v3
@@ -37,19 +34,23 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
-      - name: Install Dependencies
+
+      - name: Install PHP dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-      - name: Install JavaScript Dependencies
+
+      - name: Install JavaScript dependencies
         run: |
           php bin/console importmap:install
           php bin/console asset-map:compile
+
       - name: Create Database
         env:
           DATABASE_URL: mysql://root:root@127.0.0.1:3306/jardin_partage_test
         run: |
           php bin/console doctrine:database:create --if-not-exists
           php bin/console doctrine:schema:update --force
-      - name: Execute tests (Unit and Feature tests) via PHPUnit
+
+      - name: Run PHPUnit tests
         env:
           DATABASE_URL: mysql://root:root@127.0.0.1:3306/jardin_partage_test
         run: vendor/bin/phpunit
@@ -61,16 +62,16 @@ jobs:
       - uses: actions/checkout@v4
 
       - id: build-php
-        name: "Install dependencies"
+        name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
 
-      - name: Getting runner public IP
+      - name: Get runner public IP
         id: ip
         uses: haythem/public-ip@v1.3
 
-      - name: Whitelist IP on hosting & delete github old ones without 2FA
+      - name: Whitelist runner IP and clean old ones
         shell: bash
         run: |
           set -e
@@ -80,18 +81,34 @@ jobs:
           echo "Get actual whitelisted IPs..."
           UNIQUE_IPS=$(curl -sX GET "$ENDPOINT?r=list" | jq -r '.data.list[]?.address' | sort -u)
 
+          # Parse comma-separated IPs to keep
+          IFS=',' read -ra KEEP_IPS <<< "${{ secrets.IPS_TO_KEEPS }}"
+
+          echo "IPs to keep from secret:"
+          for keep in "${KEEP_IPS[@]}"; do
+            echo "- $keep"
+          done
+
           for address in $UNIQUE_IPS; do
-            if [[ "$address" == "${{ inputs.ip_to_keep }}" ]]; then
-              echo "Keep this IP: $address"
+            keep=false
+            for keep_ip in "${KEEP_IPS[@]}"; do
+              if [[ "$address" == "$keep_ip" ]]; then
+                echo "Keep this IP: $address"
+                keep=true
+                break
+              fi
+            done
+
+            if [[ "$keep" == true ]]; then
               continue
             fi
+
             echo "Delete this GitHub IP: $address (in & out)"
             curl -sX GET "$ENDPOINT?r=remove&address=$address&direction=in&port=22" | jq || true
             sleep 3
             curl -sX GET "$ENDPOINT?r=remove&address=$address&direction=out&port=22" | jq || true
             sleep 3
           done
-          echo "All non-kept IPs deleted."
 
           echo "Attempt to whitelist current IP: ${{ steps.ip.outputs.ipv4 }}"
           curl -sX POST \
