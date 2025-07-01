@@ -76,44 +76,34 @@ jobs:
         run: |
           ENDPOINT="https://${{secrets.SSH_USERNAME}}:${{secrets.PASSWORD}}@${{secrets.SSH_HOST}}:2083/frontend/o2switch/o2switch-ssh-whitelist/index.live.php"
 
-          echo "Get actual whitelisted IPs..."
+          echo "Getting current whitelisted IPs..."
           
-          # First, check what the API actually returns
-          RESPONSE=$(curl -sX GET "$ENDPOINT?r=list")
-          echo "Raw API response:"
-          echo "$RESPONSE"
+          RESPONSE=$(curl -sX GET "$ENDPOINT?r=list" 2>/dev/null)
           
           # Check if the response is valid JSON
           if echo "$RESPONSE" | jq empty 2>/dev/null; then
-            echo "Response is valid JSON, proceeding..."
+            echo "API response received successfully"
             UNIQUE_IPS=$(echo "$RESPONSE" | jq -r '.data.list[]?.address' | sort -u)
           else
-            echo "Response is not valid JSON. Checking for HTML error page..."
+            echo "Error: Invalid API response received"
             if echo "$RESPONSE" | grep -q "<html\|<HTML"; then
-              echo "Received HTML response instead of JSON. This might be an authentication or endpoint issue."
-              echo "Response preview:"
-              echo "$RESPONSE" | head -10
+              echo "Received HTML response - possible authentication issue"
               exit 1
             else
-              echo "Response is neither JSON nor HTML. Raw response:"
-              echo "$RESPONSE"
+              echo "Unexpected response format"
               exit 1
             fi
           fi
 
           # Parse comma-separated IPs to keep
-          IFS=',' read -ra KEEP_IPS <<< "$IPS_TO_KEEPS"
+          IFS=',' read -ra KEEP_IPS <<< "${{secrets.IPS_TO_KEEP}}"
 
-          echo "IPs to keep from secret:"
-          for keep in "${KEEP_IPS[@]}"; do
-            echo "- $keep"
-          done
+          echo "Processing IP whitelist cleanup..."
 
           for address in $UNIQUE_IPS; do
             keep=false
             for keep_ip in "${KEEP_IPS[@]}"; do
               if [[ "$address" == "$keep_ip" ]]; then
-                echo "Keep this IP: $address"
                 keep=true
                 break
               fi
@@ -123,30 +113,24 @@ jobs:
               continue
             fi
 
-            echo "Delete this GitHub IP: $address (in & out)"
-            DELETE_RESPONSE_IN=$(curl -sX GET "$ENDPOINT?r=remove&address=$address&direction=in&port=22")
-            echo "Delete IN response: $DELETE_RESPONSE_IN"
-            if echo "$DELETE_RESPONSE_IN" | jq empty 2>/dev/null; then
-              echo "$DELETE_RESPONSE_IN" | jq
-            fi
+            echo "Removing old IP from whitelist..."
+            DELETE_RESPONSE_IN=$(curl -sX GET "$ENDPOINT?r=remove&address=$address&direction=in&port=22" 2>/dev/null)
             sleep 3
             
-            DELETE_RESPONSE_OUT=$(curl -sX GET "$ENDPOINT?r=remove&address=$address&direction=out&port=22")
-            echo "Delete OUT response: $DELETE_RESPONSE_OUT"
-            if echo "$DELETE_RESPONSE_OUT" | jq empty 2>/dev/null; then
-              echo "$DELETE_RESPONSE_OUT" | jq
-            fi
+            DELETE_RESPONSE_OUT=$(curl -sX GET "$ENDPOINT?r=remove&address=$address&direction=out&port=22" 2>/dev/null)
             sleep 3
           done
 
-          echo "Attempt to whitelist current IP: ${{ steps.ip.outputs.ipv4 }}"
+          echo "Adding current runner IP to whitelist..."
           ADD_RESPONSE=$(curl -sX POST \
             -d "whitelist[address]=$(echo "${{ steps.ip.outputs.ipv4 }}")" \
             -d "whitelist[port]=22" \
-            "$ENDPOINT?r=add")
-          echo "Add response: $ADD_RESPONSE"
-          if echo "$ADD_RESPONSE" | jq empty 2>/dev/null; then
-            echo "$ADD_RESPONSE" | jq
+            "$ENDPOINT?r=add" 2>/dev/null)
+          
+          if echo "$ADD_RESPONSE" | jq -e '.success' >/dev/null 2>&1; then
+            echo "IP successfully added to whitelist"
+          else
+            echo "Warning: IP addition may have failed"
           fi
 
       - name: Deploy on main
@@ -156,7 +140,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /public_html/
+            cd public_html/jardin-partage
             git pull
             composer install
             php bin/console asset-map:compile
