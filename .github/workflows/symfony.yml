@@ -73,14 +73,8 @@ jobs:
 
       - name: Whitelist runner IP and clean old ones
         shell: bash
-        env:
-          IPS_TO_KEEPS: ${{ secrets.IPS_TO_KEEPS }}
-          PASSWORD: ${{ secrets.PASSWORD }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
-          set -e
-          ENDPOINT="https://${SSH_USER}:${PASSWORD}@${SSH_HOST}:2083/frontend/o2switch/o2switch-ssh-whitelist/index.live.php"
+          ENDPOINT="https://${{secrets.SSH_USERNAME}}:${{secrets.PASSWORD}}@${{secrets.SSH_HOST}}:2083/frontend/o2switch/o2switch-ssh-whitelist/index.live.php"
 
           echo "Get actual whitelisted IPs..."
           
