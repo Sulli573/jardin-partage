@@ -32,8 +32,8 @@
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.firstname }}</td>
                 <td>
-                    <a href="{{ path('app_admin_user_show', {'id': user.id}) }}">Afficher</a>
-                    <a href="{{ path('app_admin_user_edit', {'id': user.id}) }}">Modifier</a>
+                    <a href="{{ path('app_admin_user_show', {'id': user.id}) }}" class="btn btn-secondary">Afficher</a>
+                    <a href="{{ path('app_admin_user_edit', {'id': user.id}) }}" class="btn btn-primary">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -43,6 +43,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_admin') }}">Tableau de Bord</a>
 {% endblock %}

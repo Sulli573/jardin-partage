@@ -3,13 +3,14 @@
 {% block title %}Modifier la plante{% endblock %}
 
 {% block body %}
-    <h1>Modifier la plante</h1>
+    <div class="d-flex flex-column align-items-center">
+        <h1 class="mb-5">Modifier la plante</h1>
+        <div class="plante-form-container">
+            {{ include('plante/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <div class="plante-form-container">
-    {{ include('plante/_form.html.twig', {'button_label': 'Modifier'}) }}
+            <a href="{{ path('app_parcelle_index') }}" class="btn btn-secondary">Retour à la parcelle</a>
 
-    <a href="{{ path('app_parcelle_index') }}" class="btn">Retour à la parcelle</a>
-
-    {{ include('plante/_delete_form.html.twig') }}
+            {{ include('plante/_delete_form.html.twig') }}
+        </div>
     </div>
 {% endblock %}

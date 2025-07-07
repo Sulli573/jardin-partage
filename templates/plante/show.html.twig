@@ -34,9 +34,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_parcelle_index') }}">Retour à la parcelle</a>
+    <a href="{{ path('app_parcelle_index') }}" class="btn btn-secondary">Retour à la parcelle</a>
 
-    <a href="{{ path('app_plante_edit', {'id': plante.id}) }}">modifier</a>
+    <a href="{{ path('app_plante_edit', {'id': plante.id}) }}" class="btn btn-primary">Modifier</a>
 
     {{ include('plante/_delete_form.html.twig') }}
 {% endblock %}

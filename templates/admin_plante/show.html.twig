@@ -34,9 +34,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_plante_index') }}">Retour à la liste des plantes</a>
+    <a href="{{ path('app_admin_plante_index') }}" class="btn btn-secondary" >Retour à la liste des plantes</a>
 
-    <a href="{{ path('app_admin_plante_edit', {'id': plante.id}) }}">Modifier</a>
+    <a href="{{ path('app_admin_plante_edit', {'id': plante.id}) }}" class="btn btn-primary">Modifier</a>
 
     {{ include('admin_plante/_delete_form.html.twig') }}
 {% endblock %}

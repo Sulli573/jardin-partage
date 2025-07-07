@@ -4,8 +4,8 @@
 {% endblock %}
 
 {% block body %}
-<div class="login-container">
-	<form class="login-form" method="post">
+<div class="d-flex justify-content-center align-items-center">
+	<form class="col-12 col-md-4" method="post">
 		{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 		{% endif %}
@@ -35,11 +35,12 @@
 		                <label for="_remember_me">Remember me</label>
 		            </div>
 		        #}
-
-		<button class="btn btn-lg btn-primary" type="submit">
-			Connexion
-		</button>
-		<a href="{{ path("app_forgot_password_request") }}">Mot de passe oublié</a>
+		<div class="d-flex flex-column mt-3">
+			<button class="btn btn-success" type="submit">
+				Connexion
+			</button>
+			<a href="{{ path("app_forgot_password_request") }}">Mot de passe oublié</a>
+		</div>
 	</form>
 </div>
 {% endblock %}

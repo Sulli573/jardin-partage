@@ -23,17 +23,17 @@
                 <td>{{ reunion.lieu }}</td>
                 <td>{{ reunion.subject }}</td>
                 <td>
-                    <a href="{{ path('app_reunion_show', {'id': reunion.id}) }}">Afficher</a>
-                    <a href="{{ path('app_reunion_edit', {'id': reunion.id}) }}">Modifier</a>
+                    <a href="{{ path('app_reunion_show', {'id': reunion.id}) }}" class="btn btn-secondary">Afficher</a>
+                    <a href="{{ path('app_reunion_edit', {'id': reunion.id}) }}" class="btn btn-primary">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">Pas de réunions trouvées</td>
+                <td colspan="5">Pas de réunion trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_reunion_new') }}">Créer une nouvelle réunion</a>
+    <a href="{{ path('app_reunion_new') }}" class="btn btn-success">Créer une nouvelle réunion</a>
 {% endblock %}

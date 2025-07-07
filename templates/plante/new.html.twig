@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter une plante{% endblock %}
+{% block title %}Ajouter une plante
+{% endblock %}
 
 {% block body %}
-    <h1>Ajouter une plante</h1>
+	<div class="d-flex flex-column align-items-center">
+		<h1 class="mb-5">Ajouter une plante</h1>
 
-    <div class="plante-form-container">
-    {{ include('plante/_form.html.twig') }}
+		<div class="plante-form-container">
+			{{ include('plante/_form.html.twig') }}
 
-    <a href="{{ path('app_parcelle_index') }}" class="btn">Retour à la parcelle</a>
-    </div>
+			<a href="{{ path('app_parcelle_index') }}" class="btn btn-secondary">Retour à la parcelle</a>
+		</div>
+	</div>
 {% endblock %}

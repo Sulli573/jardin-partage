@@ -18,15 +18,14 @@ class CommentType extends AbstractType
         $builder
             ->add('message', TextareaType::class,[
                 'label'=> false,
-                'attr'=>['placeholder'=>'Saisissez votre commentaire',
-                'minlength'=>5,
-                'maxlength'=>1000,
-                'rows'=>10,
-                'cols'=>100,
-
+                'attr' => [
+                    'placeholder' => 'Saisissez votre commentaire',
+                    'minlength' => 5,
+                    'maxlength' => 1000,
+                    'rows' => 10,
+                    'cols' => 100,
                 ]
             ])
-            
         ;
     }
 
@@ -34,10 +33,7 @@ class CommentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Comment::class,
-            'label'=>"message",
-            'attr'=>[
-                'class'=>'card-form-comment',
-                ]
+            'label' =>"Votre commentaire :",
         ]);
     }
 }

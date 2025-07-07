@@ -27,18 +27,18 @@
                 <td>{{ plante.periodeCroissance }}</td>
                 <td>{{ plante.createdAt ? plante.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_admin_plante_show', {'id': plante.id}) }}">Afficher</a>
-                    <a href="{{ path('app_admin_plante_edit', {'id': plante.id}) }}">Modifier</a>
+                    <a href="{{ path('app_admin_plante_show', {'id': plante.id}) }}" class="btn btn-secondary">Afficher</a>
+                    <a href="{{ path('app_admin_plante_edit', {'id': plante.id}) }}" class="btn btn-primary">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">Aucune plante trouvée</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_plante_new') }}">Créer une nouvelle plante</a>
-    <a href="{{ path('app_admin') }}">Tableau de Bord</a>
+    <a href="{{ path('app_admin_plante_new') }}" class="btn btn-success">Créer une nouvelle plante</a>
+
 {% endblock %}
