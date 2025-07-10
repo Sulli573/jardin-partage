@@ -11,15 +11,15 @@
                 <th>Id</th>
                 <th>Date</th>
                 <th>Lieu</th>
-                <th>Subject</th>
-                <th>actions</th>
+                <th>Sujet</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for reunion in reunions %}
             <tr>
                 <td>{{ reunion.id }}</td>
-                <td>{{ reunion.date ? reunion.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ reunion.date ? reunion.date|date('d/m/Y H:i') : '' }}</td>
                 <td>{{ reunion.lieu }}</td>
                 <td>{{ reunion.subject }}</td>
                 <td>
@@ -35,5 +35,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_reunion_new') }}" class="btn btn-success">Créer une nouvelle réunion</a>
+    <a href="{{ path('app_reunion_new') }}" class="btn btn-success">Nouveau</a>
 {% endblock %}

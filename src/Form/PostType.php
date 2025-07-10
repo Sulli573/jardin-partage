@@ -32,7 +32,7 @@ class PostType extends AbstractType
                 
             ])
             ->add('imageFile',VichImageType::class,[
-                'label' => 'image',
+                'label' => 'Image',
             ])
             
         ;
@@ -43,10 +43,6 @@ class PostType extends AbstractType
         $resolver->setDefaults([
             // sur le formulaire
             'data_class' => Post::class,
-            'attr' => [
-                'class' => 'post_form',
-            ]
-
         ]);
     }
 }

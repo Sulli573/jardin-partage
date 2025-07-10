@@ -4,11 +4,11 @@
 
 {% block body %}
     <h1>Modifier une parcelle</h1>
-
     {{ include('admin_parcelle/_form.html.twig', {'button_label': 'Modifier'}) }}
 
+<div class="d-flex flex-column align-items-start gap-2 mt-2">
     {{ include('admin_parcelle/_delete_form.html.twig') }}
 
-    <a href="{{ path('app_admin_parcelle_index') }}" class="btn btn-secondary">Retour à la liste des parcelles</a>
-
+    <a href="{{ path('app_admin_parcelle_index') }}" class="btn btn-secondary">Retour </a>
+</div>
 {% endblock %}

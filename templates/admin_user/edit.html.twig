@@ -3,11 +3,12 @@
 {% block title %}Modifier un utilisateur{% endblock %}
 
 {% block body %}
-    <h1>Modifier un utilisateurs</h1>
+    <h1>Modifier un utilisateur</h1>
 
     {{ include('admin_user/_form.html.twig', {'button_label': 'Modifier'}) }}
+    <div class="d-flex flex-column align-items-start gap-2 mt-2">
 
-    <a href="{{ path('app_admin_user_index') }}" class="btn btn-secondary">Retour aux utilisateurs</a>
+    <a href="{{ path('app_admin_user_index') }}" class="btn btn-secondary">Retour</a>
 
     {{ include('admin_user/_delete_form.html.twig') }}
 {% endblock %}

@@ -12,7 +12,7 @@
                 <th>Numéro</th>
                 <th>Superficie</th>
                 <th>Date de création</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody  class="table-group-divider">
@@ -21,7 +21,7 @@
                 <td>{{ parcelle.id }}</td>
                 <td>{{ parcelle.number }}</td>
                 <td>{{ parcelle.size }}</td>
-                <td>{{ parcelle.createdAt ? parcelle.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ parcelle.createdAt ? parcelle.createdAt|date('d/m/Y H:i') : '' }}</td>
                 <td>
                     <a href="{{ path('app_admin_parcelle_show', {'id': parcelle.id}) }}" class="btn btn-secondary">Afficher</a>
                     <a href="{{ path('app_admin_parcelle_edit', {'id': parcelle.id}) }}" class="btn btn-primary">Modifier</a>

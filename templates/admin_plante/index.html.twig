@@ -14,7 +14,7 @@
                 <th>DatePlantation</th>
                 <th>PeriodeCroissance</th>
                 <th>Date de création</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -23,9 +23,9 @@
                 <td>{{ plante.id }}</td>
                 <td>{{ plante.nom }}</td>
                 <td>{{ plante.type }}</td>
-                <td>{{ plante.datePlantation ? plante.datePlantation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ plante.datePlantation ? plante.datePlantation|date('d/m/Y H:i') : '' }}</td>
                 <td>{{ plante.periodeCroissance }}</td>
-                <td>{{ plante.createdAt ? plante.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ plante.createdAt ? plante.createdAt|date('d/m/Y H:i') : '' }}</td>
                 <td>
                     <a href="{{ path('app_admin_plante_show', {'id': plante.id}) }}" class="btn btn-secondary">Afficher</a>
                     <a href="{{ path('app_admin_plante_edit', {'id': plante.id}) }}" class="btn btn-primary">Modifier</a>

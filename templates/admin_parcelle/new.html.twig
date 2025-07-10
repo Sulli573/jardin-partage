@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Parcelle{% endblock %}
+{% block title %}Nouvelle Parcelle{% endblock %}
 
 {% block body %}
-    <h1>Create new Parcelle</h1>
+    <h1>Créer une nouvelle parcelle</h1>
 
     {{ include('admin_parcelle/_form.html.twig') }}
 
-    <a href="{{ path('app_admin_parcelle_index') }}">Retour à la liste</a>
+    <a href="{{ path('app_admin_parcelle_index') }}" class="btn btn-secondary mt-2">Retour à la liste</a>
 {% endblock %}

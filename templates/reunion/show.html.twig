@@ -1,39 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reunion{% endblock %}
+{% block title %}Reunion
+{% endblock %}
 
 {% block body %}
-    <h1>Reunion</h1>
+	<h1>Reunion</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ reunion.id }}</td>
-            </tr>
-            <tr>
-                <th>Date</th>
-                <td>{{ reunion.date ? reunion.date|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Lieu</th>
-                <td>{{ reunion.lieu }}</td>
-            </tr>
-            <tr>
-                <th>Subject</th>
-                <td>{{ reunion.subject }}</td>
-            </tr>
-             <tr>
-                <th>Content</th>
-                <td>{{ reunion.content }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ reunion.id }}</td>
+			</tr>
+			<tr>
+				<th>Date</th>
+				<td>{{ reunion.date ? reunion.date|date('d/m/Y H:i') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Lieu</th>
+				<td>{{ reunion.lieu }}</td>
+			</tr>
+			<tr>
+				<th>Sujet</th>
+				<td>{{ reunion.subject }}</td>
+			</tr>
+			<tr>
+				<th>Contenu</th>
+				<td>
+					{% if reunion.content %}
+						{{ reunion.content }}
+					{% else %}
+						<span class="badge text-bg-success">
+							Pas de contenu
+						</span>
+					{% endif %}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="d-flex flex-column align-items-start gap-2">
+		<a href="{{ path('app_reunion_edit', {'id': reunion.id}) }}" class="btn btn-primary">Modifier</a>
 
-    <a href="{{ path('app_reunion_edit', {'id': reunion.id}) }}"class="btn btn-primary">Modifier</a>
+		{{ include('reunion/_delete_form.html.twig') }}
 
-    {{ include('reunion/_delete_form.html.twig') }}
-
-    <a href="{{ path('app_reunion_index') }}" class="btn btn-secondary">Retour à la liste</a>
-    
+		<a href="{{ path('app_reunion_index') }}" class="btn btn-secondary">Retour</a>
+	</div>
 {% endblock %}

@@ -1,39 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des Posts{% endblock %}
+{% block title %}Liste des Posts
+{% endblock %}
 
 {% block body %}
-    <h1>Liste des Posts</h1>
+	<h1>Liste des Posts</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Message</th>
-                <th>CreatedAt</th>
-                <th>ImageName</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for post in posts %}
-            <tr>
-                <td>{{ post.message }}</td>
-                <td>{{ post.createdAt ? post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ post.imageName }}</td>
-                <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_admin_post_show', {'id': post.id}) }}" class="btn btn-secondary">Afficher</a>
-                    <a href="{{ path('app_admin_post_edit', {'id': post.id}) }}" class="btn btn-primary">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">Pas de post trouvé</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Auteur</th>
+				<th>Lien d'image</th>
+				<th>Créé le</th>
+				<th>Modifié le</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for post in posts %}
+				<tr>
+					<td>{{ post.id }}</td>
+					<td>{{ post.user.fullname }}</td>
+					<td>
+						{% if post.imageName %}
+							{# afficher l'image dans un nouvel onglet #}
+							<a href="{{vich_uploader_asset(post)}}" target="_blank" class="text-primary">Voir l'image
+							</a>
+						{% else %}
+							<span class="badge text-bg-success">
+								Aucune image
+							</span>
+						{% endif %}
+					</td>
+					<td>{{ post.createdAt ? post.createdAt|date('d/m/Y H:i') : '' }}</td>
+					<td>
+						{% if post.updatedAt %}
+							{{ post.updatedAt|date('d/m/Y H:i') }}
+						{% else %}
+							<span class="badge text-bg-success">
+								Jamais modifié
+							</span>
+						{% endif %}
+					</td>
+					<td>
+						<a href="{{ path('app_admin_post_show', {'id': post.id}) }}" class="btn btn-secondary">Afficher</a>
+						<a href="{{ path('app_admin_post_edit', {'id': post.id}) }}" class="btn btn-primary">Modifier</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="6">Pas de post trouvé</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_admin_post_new') }}" class="btn btn-success">Nouveau</a>
+	<a href="{{ path('app_admin_post_new') }}" class="btn btn-success">Nouveau</a>
 {% endblock %}

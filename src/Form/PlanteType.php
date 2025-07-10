@@ -69,10 +69,6 @@ class PlanteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Plante::class,
-            // Ajouter la class .form à la balise form (<form class="plante-form">)
-            'attr' => [
-                'class' => 'plante_form'
-            ],
         ]);
     }
 }

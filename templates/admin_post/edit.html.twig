@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier Post{% endblock %}
-
-{% block body %}
-    <h1>Modifer Post</h1>
-
-    {{ include('admin_post/_form.html.twig', {'button_label': 'Modifier'}) }}
-
-    {{ include('admin_post/_delete_form.html.twig') }}
-
-     <a href="{{ path('app_admin_post_index') }}" class="btn btn-secondary">Retour à la liste</a>
+{% block title %}Modifier Post
 {% endblock %}
 
+{% block body %}
+	<h1>Modifer Post</h1>
+
+	{{ include('admin_post/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+	<div class="d-flex flex-column align-items-start gap-2 mt-2">
+		{{ include('admin_post/_delete_form.html.twig') }}
+		<a href="{{ path('app_admin_post_index') }}" class="btn btn-secondary">Retour</a>
+	</div>
+{% endblock %}

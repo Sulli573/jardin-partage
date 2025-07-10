@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier Reunion{% endblock %}
+{% block title %}Modifier Reunion
+{% endblock %}
 
 {% block body %}
-    <h1>Modifier Reunion</h1>
+	<h1>Modifier Reunion</h1>
 
-    {{ include('reunion/_form.html.twig', {'button_label': 'Update'}) }}
+	{{ include('reunion/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('app_reunion_index') }}">Retour à la liste</a>
-
-    {{ include('reunion/_delete_form.html.twig') }}
+	<div class="d-flex flex-column align-items-start gap-2 mt-2">
+		{{ include('reunion/_delete_form.html.twig') }}
+		<a href="{{ path('app_reunion_index') }}" class="btn btn-secondary">Retour</a>
+	</div>
 {% endblock %}

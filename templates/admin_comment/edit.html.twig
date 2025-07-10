@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier commentaire{% endblock %}
+{% block title %}Modifier commentaire
+{% endblock %}
 
 {% block body %}
-    <h1>Modifier commentaire</h1>
+	<h1>Modifier commentaire</h1>
 
-    {{ include('admin_comment/_form.html.twig', {'button_label': 'Modifier'}) }}
+	{{ include('admin_comment/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    {{ include('admin_comment/_delete_form.html.twig') }}
-
-    <a href="{{ path('app_admin_comment_index') }}" class="btn btn-secondary">Retour</a>
+	<div class="d-flex flex-column align-items-start gap-2 mt-2">
+		{{ include('admin_comment/_delete_form.html.twig') }}
+		<a href="{{ path('app_admin_comment_index') }}" class="btn btn-secondary">Retour</a>
+	</div>
 {% endblock %}

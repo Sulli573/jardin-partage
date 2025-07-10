@@ -1,45 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Parcelle{% endblock %}
+{% block title %}Parcelle
+{% endblock %}
 
 {% block body %}
-    <h1>Parcelle</h1>
+	<h1>Parcelle</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Identifiant de la parcelle : </th>
-                <td>{{ parcelle.id }}</td>
-            </tr>
-            <tr>
-                <th>Numéro de la parcelle : </th>
-                <td>{{ parcelle.number }}</td>
-            </tr>
-            <tr>
-                <th>Superficie : </th>
-                <td>{{ parcelle.size }}</td>
-            </tr>
-            <tr>
-                <th>Propriétaire : </th>
-                <td>
-                {% if parcelle.owner %}
-                {{parcelle.owner}}
-                {% else %}
-                 Aucun propriétaire défini pour cette parcelle   
-                {% endif %}
-                
-                </td>
-            </tr>
-            <tr>
-                <th>Créé le : </th>
-                <td>{{ parcelle.createdAt ? parcelle.createdAt|date('d/m/Y H:i') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Identifiant de la parcelle :
+				</th>
+				<td>{{ parcelle.id }}</td>
+			</tr>
+			<tr>
+				<th>Numéro de la parcelle :
+				</th>
+				<td>{{ parcelle.number }}</td>
+			</tr>
+			<tr>
+				<th>Superficie :
+				</th>
+				<td>{{ parcelle.size }}</td>
+			</tr>
+			<tr>
+				<th>Propriétaire :
+				</th>
+				<td>
+					{% if parcelle.owner %}
+						{{parcelle.owner}}
+					{% else %}
+						Aucun propriétaire défini pour cette parcelle
+					{% endif %}
 
-    <a href="{{ path('app_admin_parcelle_index') }}">Retour</a>
+				</td>
+			</tr>
+			<tr>
+				<th>Créé le :
+				</th>
+				<td>{{ parcelle.createdAt ? parcelle.createdAt|date('d/m/Y H:i') : '' }}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="d-flex flex-column align-items-start gap-2">
+		<a href="{{ path('app_admin_parcelle_index') }}" class="btn btn-secondary">Retour</a>
 
-    <a href="{{ path('app_admin_parcelle_edit', {'id': parcelle.id}) }}">Modifier</a>
+		<a href="{{ path('app_admin_parcelle_edit', {'id': parcelle.id}) }}" class="btn btn-primary">Modifier</a>
 
-    {{ include('admin_parcelle/_delete_form.html.twig') }}
+		{{ include('admin_parcelle/_delete_form.html.twig') }}
+	</div>
 {% endblock %}

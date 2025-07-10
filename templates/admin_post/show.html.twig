@@ -1,37 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Post{% endblock %}
+{% block title %}Post
+{% endblock %}
 
 {% block body %}
-    <h1>Post</h1>
+	<h1>Post</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Message</th>
-                <td>
-                {{ post.message }}
-                <p>Nombre de caractères : {{ post.getLenghtMessage}}</p>
-                </td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ post.createdAt ? post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>ImageName</th>
-                <td>{{ post.imageName }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ post.updatedAt ? post.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_admin_post_index') }}" class="btn btn-secondary">Retour à la liste</a>
-
-    <a href="{{ path('app_admin_post_edit', {'id': post.id}) }}" class="btn btn-primary">Modifier</a>
-
-    {{ include('admin_post/_delete_form.html.twig') }}
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Message</th>
+				<td>
+					{{ post.message }}
+					<p>Nombre de caractères :
+						{{ post.getLenghtMessage}}</p>
+				</td>
+			</tr>
+			<tr>
+				<th>Créé le</th>
+				<td>{{ post.createdAt ? post.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Image du post</th>
+				<td>
+					{% if post.imageName %}
+						{# afficher l'image dans un nouvel onglet #}
+						<a href="{{vich_uploader_asset(post)}}" target="_blank" class="text-primary">Voir l'image
+						</a>
+					{% else %}
+						<span class="badge text-bg-success">
+							Aucune image
+						</span>
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<th>Modifié le</th>
+				<td>
+					{% if post.updatedAt %}
+						{{ post.updatedAt|date('d/m/Y H:i') }}
+					{% else %}
+						<span class="badge text-bg-success">
+							Jamais modifié
+						</span>
+					{% endif %}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="d-flex flex-column align-items-start gap-2">
+		<a href="{{ path('app_admin_post_edit', {'id': post.id}) }}" class="btn btn-primary">Modifier</a>
+		{{ include('admin_post/_delete_form.html.twig') }}
+		<a href="{{ path('app_admin_post_index') }}" class="btn btn-secondary">Retour</a>
+	</div>
 {% endblock %}
