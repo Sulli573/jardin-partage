@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block body %}
+
 	<h1>Reunion</h1>
 
 	<table class="table">
@@ -34,6 +35,17 @@
 							Pas de contenu
 						</span>
 					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				{% set manyParticipants = reunion.inscriptionReunions|length > 1 %}
+				<th>Participant{{ manyParticipants ? 's' : '' }}</th>
+				<td>
+				 	{% for inscription in reunion.inscriptionReunions %}
+						{{ inscription.user.fullName }}
+						{# Si on est pas sur le dernier élément met une , #}
+						{% if not loop.last %}, {% endif %}
+					{% endfor %}
 				</td>
 			</tr>
 		</tbody>

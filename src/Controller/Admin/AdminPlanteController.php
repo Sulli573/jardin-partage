@@ -37,7 +37,7 @@ final class AdminPlanteController extends AbstractController
 
             return $this->redirectToRoute('app_admin_plante_index', [], Response::HTTP_SEE_OTHER);
             }catch(Exception $e) {
-                $this->addFlash("error","Une erreur est survenue lors de l'ajout de la plante");
+                $this->addFlash("danger","Une erreur est survenue lors de l'ajout de la plante");
                 return $this->redirectToRoute('app_admin_plante_new');
             }
         }

@@ -12,18 +12,40 @@
 				<div class="fw-bold">Prochaine(s) réunion(s):</div>
 				<div class="card-body p-0">
 					{% for reunion in reunions %}
-						<p><u>Lieu</u> : {{ reunion.lieu }}</p>
-						<p><u>Date</u> : {{ reunion.date | date('d/m/Y H:i') }}</p>
-						<p><u>Sujet</u> : {{ reunion.subject }}</p>
+						<p>
+							<u>Lieu</u>
+							:
+							{{ reunion.lieu }}</p>
+						<p>
+							<u>Date</u>
+							:
+							{{ reunion.date | date('d/m/Y H:i') }}</p>
+						<p>
+							<u>Sujet</u>
+							:
+							{{ reunion.subject }}</p>
 						<p>{{ reunion.content }}</p>
 						<div class="d-flex justify-content-center align-items-center gap-3">
-							<a href="{{ path('app_reunion_register',{'id':reunion.id})}}" class="btn btn-success">
-								S'inscrire
-							</a>
-							<a href="{{ path('app_reunion_unsubscribe',{'id':reunion.id})}}" class="btn btn-danger">
-								Se désincrire
-							</a>
+
+							{# Trouvé les inscriptions liée à la réunion sur laquelle on travail #}
+							{# Trouvé dans ces inscription l'utilisateur connecté #}
+							{% set hasUserInscripted = reunion.inscriptionReunions|filter(inscription => inscription.user == app.user)|length > 0 %}
+
+							{# Récupérer l'utilisateur connecté
+														Si l'utilisateur est inscrit à une réunion
+														#}
+								{% if not hasUserInscripted %}
+									<a href="{{ path('app_reunion_register',{'id':reunion.id})}}" class="btn btn-success"> S'inscrire
+								</a>
+							{% else %}
+								<a href="{{ path('app_reunion_unsubscribe',{'id':reunion.id})}}" class="btn btn-danger">
+									Se désincrire
+								</a>
+							{% endif %}
 						</div>
+						{% if not loop.last %}
+							<hr>
+						{% endif %}
 					{% endfor %}
 				</div>
 			</div>
@@ -54,7 +76,8 @@
 							{{ post.message }}
 						</div>
 						{% if post.imageName %}
-							<div class="d-flex justify-content-center card-image w-100">
+							<div
+								class="d-flex justify-content-center card-image w-100">
 								{# Va aller chercher l'image à l'intérieur de l'objet post #}
 								<img src="{{ vich_uploader_asset(post) }}" class="w-50" alt="image">
 							</div>
@@ -65,13 +88,12 @@
 							{# initialisation du formulaire #}
 							{#   post.id en twig  équivaut à $post->getId() en php natif #}
 							{{ form_start(commentForm[post.id]) }}
-								{{ form_row(commentForm[post.id]) }}
-								<button type="submit" class="btn btn-success">
-									{{ button_label|default('Enregistrer') }}
-								</button>
+							{{ form_row(commentForm[post.id]) }}
+								<button type="submit" class="btn btn-success"> {{ button_label|default('Enregistrer') }}
+							</button>
 							{{ form_end(commentForm[post.id]) }}
 
-						    <div class="mt-3">
+							<div class="mt-3">
 								{% for comment in post.comments|sort((a, b) => b.createdAt <=> a.createdAt)%}
 									<div class="d-flex align-items-center justify-content-between">
 										<div class="fw-bold">

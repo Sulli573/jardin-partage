@@ -46,7 +46,7 @@ final class AdminUserController extends AbstractController
                 return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
                 # \Exception équivaut à mettre en haut du fichier use Exception;
             } catch (\Exception $e) {
-                $this->addFlash("error", "Une erreur est survenur lors de la modification de l'utilisateur");
+                $this->addFlash("danger", "Une erreur est survenur lors de la modification de l'utilisateur");
                 return $this->redirectToRoute('app_admin_user_edit');
             }
         }
