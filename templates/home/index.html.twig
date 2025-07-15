@@ -12,12 +12,13 @@
 	<div class="section">
 	<div>
 	<p>La météo :</p>
-{% for day in meteo %}
-	{% for key,heure in day %}
-
- {{key}} : {{heure.temperature["2m"]}} kelvin
-	{% endfor %}
-{% endfor %}
+        {% for date, day in meteo %}
+            <p>Date: {{ date }}</p>
+            <p>Jour: {{ day.jour }}</p>
+            {# {% for key, heure in meteo %}
+                <p>{{ key }}: {{ heure.temperature["2m"] }} Kelvin</p>
+            {% endfor %} {#}
+        {% endfor %} 
 	</div>
 		{% if app.user %}
 

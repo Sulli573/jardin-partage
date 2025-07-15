@@ -20,7 +20,7 @@ final class HomeController extends AbstractController
     {
 
         // $apiJson = $test->fetchInfo();
-        $tableauMeteo = $meteoService->fetchInformations();
+        $tableauMeteo = $meteoService->invoke();
         /** @var Post[] $posts */
         $posts = $postRepository->findBy([], ['createdAt'=>'desc']);
         // tableau qui va contenir tous les formulaires des commentaires (1 commentaire par formulaire)
