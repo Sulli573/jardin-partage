@@ -9,7 +9,7 @@
 
 {% block javascripts %}
 {# {{parent(())}} permet de récupérer ce qui est déjà présent dans le block dans base.html.twig #}
-{{parent()}}
+{{ parent() }}
 {# l'attribut defer permet d'attendre le chargement du html aveant d'executer le js #}
 <script src="{{ asset('js/meteo.js') }}" defer></script>
 {% endblock %}
