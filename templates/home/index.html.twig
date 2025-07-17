@@ -7,21 +7,20 @@
 	<link rel="stylesheets" href="{{ asset('styles/home.css') }}">
 {% endblock %}
 
+{% block javascripts %}
+{# {{parent(())}} permet de récupérer ce qui est déjà présent dans le block dans base.html.twig #}
+{{parent()}}
+{# l'attribut defer permet d'attendre le chargement du html aveant d'executer le js #}
+<script src="{{ asset('js/meteo.js') }}" defer></script>
+{% endblock %}
+
 {% block body %}
 	{# app.user équivaut à $this->user et récupére l'utilisateur connecté #}
 	<div class="section">
-	<div>
-	<p>La météo :</p>
-        {% for date, day in meteo %}
-            <p>Date: {{ date }}</p>
-            <p>Jour: {{ day.jour }}</p>
-            {# {% for key, heure in meteo %}
-                <p>{{ key }}: {{ heure.temperature["2m"] }} Kelvin</p>
-            {% endfor %} {#}
-        {% endfor %} 
-	</div>
+	
 		{% if app.user %}
 
+			<div id="meteo"></div>
 			<div>
 				<b>Prochaine(s) réunion(s):</b>
 				{% for reunion in reunions %}

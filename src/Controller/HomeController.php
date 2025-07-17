@@ -19,8 +19,8 @@ final class HomeController extends AbstractController
     public function index(PostRepository $postRepository, ReunionRepository $reunionRepository, MeteoService $meteoService, TestJson $test): Response
     {
 
-        // $apiJson = $test->fetchInfo();
-        $tableauMeteo = $meteoService->invoke();
+    
+ 
         /** @var Post[] $posts */
         $posts = $postRepository->findBy([], ['createdAt'=>'desc']);
         // tableau qui va contenir tous les formulaires des commentaires (1 commentaire par formulaire)
@@ -44,8 +44,8 @@ final class HomeController extends AbstractController
             // tous les formulaires
             'commentForm' => $commentForm,
             'reunions' => $reunions,
-            'meteo' => $tableauMeteo
 
         ]);
     }
+    
 }

@@ -18,12 +18,13 @@ class MeteoService
         private HttpClientInterface $client,
     ) {}
 
-    public function invoke() {
+    public function invoke(): Meteo {
         $data = $this->fetchInformations();
         $daysWithHours = $this->getHoursOfOneDay($data);
 
         $meteo = new Meteo();
         //array_slice pour récupérer une portion de tableau de 0 à 3 pour récupérer que 3 jours mettre la variable $nbOfDays dans le slice
+        $daysWithHours = array_slice($daysWithHours, 0, $this->nbOfDays);
         foreach ($daysWithHours as $day => $hours) {
             $meteoDay = new MeteoDay();
             $meteoDay->setDay(new \DateTime($day));
@@ -33,7 +34,7 @@ class MeteoService
 
             $meteo->addDay($meteoDay);
         }
-        dd($meteo);
+        return $meteo;
     }
 
     /**
@@ -55,14 +56,19 @@ class MeteoService
     {
         $temperaturesOfTheDay = $this->getAllTempOnDay($dataHours); // récupére un tableau avec toutes les témpératures de la journée.
 
-        return max($temperaturesOfTheDay);
+        $tempMaxKelvin = max($temperaturesOfTheDay);
+        $tempMaxCelsius = $this->convertKelvinToCelsius($tempMaxKelvin);
+        return round($tempMaxCelsius,2); //arrondi à 2 chiffres après la virgule
+
     }
 
     public function getTempMin(array $dataHours): float
     {
         $temperaturesOfTheDay = $this->getAllTempOnDay($dataHours); 
 
-        return min($temperaturesOfTheDay);
+        $tempMinKelvin = min($temperaturesOfTheDay);
+        $tempMinCelsius = $this->convertKelvinToCelsius($tempMinKelvin);
+        return round($tempMinCelsius,2); //arrondi à 2 chiffres après la virgule
     }
 
 
@@ -83,7 +89,8 @@ class MeteoService
     public function getAveragePrecipitation(array $dataHours) : float
     {
         $precipitationOftheDay = $this->getAllPrecipitationOnDay($dataHours);
-        return array_sum($precipitationOftheDay) / count($precipitationOftheDay);
+        $average = array_sum($precipitationOftheDay) / count($precipitationOftheDay);
+        return round($average,4);
     }
 
     //Récupération de toutes les heures d'une journée
@@ -121,16 +128,20 @@ class MeteoService
 
         $statusCode = $response->getStatusCode();
         // $statusCode = 200
-        $contentType = $response->getHeaders()['content-type'][0];
+        $contentType = $response->getHeaders()['content-type'][0]; // on recupère le format retourner par le page (peut etre html, json,xml etc... ici c'est du json)
         // $contentType = 'application/json'
         $content = $response->getContent();
         // $content = '{"id":521583, "name":"symfony-docs", ...}'
-        $content = $response->toArray();
+        $content = $response->toArray(); //transforme le json en tableau.
         // $content = ['id' => 521583, 'name' => 'symfony-docs', ...]
 
         //supprimer les 4 premiers éléménts du tableaux (ils ne sont pas utiles)
         $data = array_splice($content, 5, count($content));
 
         return $data;
+    }
+    public function convertKelvinToCelsius(float $tempKelvin): float
+    {
+        return $tempKelvin - 273.15; 
     }
 }
