@@ -3,9 +3,17 @@
 {% block title %}Jardin partagé
 {% endblock %}
 
+{% block javascripts %}
+{# {{parent(())}} permet de récupérer ce qui est déjà présent dans le block dans base.html.twig #}
+{{ parent() }}
+{# l'attribut defer permet d'attendre le chargement du html aveant d'executer le js #}
+<script src="{{ asset('js/meteo.js') }}" defer></script>
+{% endblock %}
+
 {% block body %}
 	{# app.user équivaut à $this->user et récupére l'utilisateur connecté #}
 	<div class="section">
+	
 		{% if app.user %}
 
 			<div class="card bg-light">
