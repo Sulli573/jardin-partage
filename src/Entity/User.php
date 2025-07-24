@@ -78,6 +78,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $lastConnection = null;
 
+    #[ORM\Column]
+    private bool $isActive = true;
+
 
     public function __construct()
     {
@@ -329,6 +332,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastConnection(?\DateTimeInterface $lastConnection): static
     {
         $this->lastConnection = $lastConnection;
+
+        return $this;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): static
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

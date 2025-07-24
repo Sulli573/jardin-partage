@@ -67,4 +67,15 @@ final class AdminUserController extends AbstractController
 
         return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    
+    #[Route('/{id}/activation', name: 'app_admin_user_activation', methods: ['GET'])]
+    public function activation(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        $active = $user->isActive();
+        $user->setIsActive(!$active);
+        $this->addFlash('success','L\'utilisateur est maintenant ' . $active ? 'désactivé' : 'activé');
+
+        return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
+    }
 }
