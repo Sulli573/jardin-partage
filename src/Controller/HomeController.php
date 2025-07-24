@@ -19,8 +19,6 @@ final class HomeController extends AbstractController
     public function index(PostRepository $postRepository, ReunionRepository $reunionRepository, MeteoService $meteoService, TestJson $test): Response
     {
 
-    
- 
         /** @var Post[] $posts */
         $posts = $postRepository->findBy([], ['createdAt'=>'desc']);
         // tableau qui va contenir tous les formulaires des commentaires (1 commentaire par formulaire)
