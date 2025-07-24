@@ -13,3 +13,4 @@ import './styles/home.css';
 import './styles/reset.css';
 import './styles/post.css';
 import './styles/plante.css';
+import './styles/meteo.css';

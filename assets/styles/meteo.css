@@ -1,0 +1,59 @@
+#meteo {
+    background-color: var(--card-background);
+    box-shadow: -2px 2px 5px black;
+    padding: 10px;
+    display: flex;
+    gap:5px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+    max-width:200px;
+    min-width:50px;
+    min-height: 100px;
+    position: fixed;
+    right: 0;
+    top: 15%;
+}
+
+#meteo .title {
+    border-bottom:1px solid rgb(176, 176, 176);
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+
+#meteo .day {
+    width: 100%;
+    text-align: center;
+}
+
+#meteo .day:not(:last-child) {
+    border-bottom:1px solid rgb(176, 176, 176)
+}
+#meteo .day:not(:first-child) {
+     margin-top:10px;
+}
+
+#meteo .day .data {
+    cursor: help;
+    border-radius:5px;
+    padding:3px;
+}
+
+#meteo .day .jour {
+    font-weight: bold;
+    font-size: 18px;
+    background-color: blue;
+    color:white;
+}
+
+#meteo .day .tempMax {
+    background-color: red;
+    color:white;
+}
+
+#meteo .day .tempMin {
+    background-color:aqua;
+}
