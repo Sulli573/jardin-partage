@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
@@ -41,6 +40,17 @@ final class AdminUserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
+                //Si activer, pas de date, metrte à la date null
+                //Si désactiver, la date
+                //car au bout d'un an de désactivation => suppression
+                if($user->isActive()) {
+                    $user->setDesactivateAt(null);
+                }
+                else {
+                    // l'antislash devant DateTime ou DateTimeImmutable petmet de ne pas mettre un use
+                    $user->setDesactivateAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')));
+                }
+
                 $entityManager->flush();
 
                 return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
@@ -68,7 +78,7 @@ final class AdminUserController extends AbstractController
         return $this->redirectToRoute('app_admin_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    
+    // route non utilisée car finalement mis la logique dans formulaire avec checkbox 
     #[Route('/{id}/activation', name: 'app_admin_user_activation', methods: ['GET'])]
     public function activation(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {

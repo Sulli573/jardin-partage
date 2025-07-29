@@ -81,6 +81,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isActive = true;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $desactivateAt = null;
+
 
     public function __construct()
     {
@@ -344,6 +347,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsActive(bool $isActive): static
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getDesactivateAt(): ?\DateTimeImmutable
+    {
+        return $this->desactivateAt;
+    }
+
+    public function setDesactivateAt(?\DateTimeImmutable $desactivateAt): static
+    {
+        $this->desactivateAt = $desactivateAt;
 
         return $this;
     }

@@ -13,9 +13,10 @@ class UserChecker implements UserCheckerInterface
     {
         
     }
-
+    //vérifie l'utilisateur avant de se connecter 
     public function checkPreAuth(UserInterface $user): void
     {
+        //Si un de ces cas, ne connecte pas l'utilisateur.
         if (!$user instanceof User) {
             return;
         }
@@ -23,6 +24,10 @@ class UserChecker implements UserCheckerInterface
         if (!$user->isVerified()) {
             // the message passed to this exception is meant to be displayed to the user
             throw new CustomUserMessageAccountStatusException("Votre compte n'est pas vérifié.");
+        }
+
+        if (!$user->isActive()) {
+            throw new CustomUserMessageAccountStatusException("Votre compte a été désactivé.");
         }
     }
 
