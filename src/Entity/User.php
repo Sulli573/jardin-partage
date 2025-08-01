@@ -49,6 +49,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $firstname = null;
 
     #[ORM\OneToOne(inversedBy: 'owner', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: 'parcelle_id',referencedColumnName:'id',nullable:true,onDelete:'SET NULL')]
     private ?Parcelle $parcelle = null;
 
     /**
@@ -99,7 +100,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getFullname(): string
     {
-        return $this->getFirstname() . ' ' . $this->getLastname();
+        if ($this->isActive()) {
+            return $this->getFirstname() . ' ' . $this->getLastname();
+        } else {
+            return 'Utilisateur suspendu';
+        }
     }
 
     public function getId(): ?int

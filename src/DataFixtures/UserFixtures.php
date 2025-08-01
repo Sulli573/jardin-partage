@@ -15,7 +15,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     public function __construct(private UserPasswordHasherInterface $userPasswordHasher) {
     }
 
-    // Execute les fixture via la commande php bin/console doctrine:fixtures:load (charge les fausses données)
+    // Execute les fixtures via la commande php bin/console doctrine:fixtures:load (charge les fausses données)
     public function load(ObjectManager $manager): void
     {
         $admin = new User();
@@ -26,7 +26,11 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $passwordHasher = $this->userPasswordHasher->hashPassword($admin, $plainPassword);
         $admin->setPassword($passwordHasher);
         $admin->setRoles(['ROLE_ADMIN']);
+        $admin->setIsVerified(true);
+        $admin->setIsActive(true);
         $manager->persist($admin);
+        //créer une référence pour l'utiliser dans d'autre fixture (grâce à un get)
+        $this->addReference('userAdmin',$admin);
 
         $user = new User();
         $user->setFirstname('User1');
@@ -36,8 +40,11 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $passwordHasher = $this->userPasswordHasher->hashPassword($user, $plainPassword);
         $user->setPassword($passwordHasher);
         $user->setRoles(['ROLE_USER']);
+        $user->setIsVerified(true);
+        $user->setIsActive(true);
         $user->setParcelle($this->getReference('parcelle1',Parcelle::class));
         $manager->persist($user);
+         $this->addReference('user1',$user);
 
         $user2 = new User();
         $user2->setFirstname('User2');
@@ -47,11 +54,15 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $passwordHasher = $this->userPasswordHasher->hashPassword($user2, $plainPassword);
         $user2->setPassword($passwordHasher);
         $user2->setRoles(['ROLE_USER']);
+        $user2->setIsVerified(true);
+        $user2->setIsActive(true);
         $user2->setParcelle($this->getReference('parcelle2',Parcelle::class));
         $manager->persist($user2);
+        $this->addReference('user2',$user2);
 
         $manager->flush();
     }
+    // permet de dire qu'il faut charger les dépendances suivantes avant de créer les fixtures User
     public function getDependencies(): array
     {
         return [
