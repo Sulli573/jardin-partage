@@ -16,6 +16,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             $post = new Post();
             $post->setMessage("Ceci est le contenu du post" . $i);
             $post->setUser($this->getReference("user" .$i, User::class));
+            // $post->setImageName("default-post.jpg");
             $post->setCreatedAt(new \DateTimeImmutable('now'));
             $manager->persist($post);
             $this->addReference('post'.$i,$post);
