@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use DateTimeZone;
 use DateTimeImmutable;
@@ -15,8 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/reunion')]
-final class ReunionController extends AbstractController
+#[Route('/admin/reunion')]
+final class AdminReunionController extends AbstractController
 {
     #[Route(name: 'app_reunion_index', methods: ['GET'])]
     public function index(ReunionRepository $reunionRepository): Response
