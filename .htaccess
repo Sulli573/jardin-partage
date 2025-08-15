@@ -1,0 +1,8 @@
+RewriteEngine On
+# Si la requête est déjà dans le dossier public, ne rien faire
+RewriteCond %{REQUEST_URI} !^/public/
+# Redirige tout vers /public en gardant le chemin original
+RewriteRule ^(.*)$ /public/$1 [L]
+# Forcer HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
